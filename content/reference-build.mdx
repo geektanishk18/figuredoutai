@@ -1,0 +1,52 @@
+We designed and built a full conversational qualification system for a multi-region residential
+property operator.
+
+**A system we designed and built, and whose IP we own.** A reference implementation of the decision
+layer, built end to end.
+
+## Architecture
+
+Four connected surfaces, built as one system rather than assembled from parts:
+
+- **Buyer-facing portal** — the public surface where an enquiry begins, with listing context carried
+  into the conversation rather than discarded at the form
+- **WhatsApp qualification layer** — first response and qualifying questions on the channel buyers
+  in this market actually use, capturing structured answers instead of a transcript
+- **Admin panel** — where the operator reads what the layer decided, on which rule, and overrides
+  anything it got wrong
+- **Voice qualification** — the same rule set applied to inbound calls, so an enquiry is qualified
+  identically whichever way it arrives
+
+The point of building all four is that a decision layer is only as good as its coverage. A rule set
+that applies on the website and not on the phone produces exactly the inconsistency it was meant to
+remove.
+
+## The qualification logic
+
+Property enquiries look uniform and are not. The logic separated them on the dimensions that
+actually predict whether a site visit happens:
+
+- **Intent** — buying to live in it, or as an investment
+- **Timeline** — possession needed within months, or browsing for next year
+- **Budget band** — checked against what is genuinely available in that region
+- **Region and project** — which inventory the enquiry maps onto
+- **Channel and source** — where the enquiry came from, carried through to routing
+
+From those, the layer scored the enquiry, routed it to the regional team that owned that inventory,
+and escalated with the answers already attached. A site visit was booked inside the conversation
+rather than after a callback.
+
+## Screens
+
+The admin panel was built around the decision log rather than around a message inbox. The operator's
+first view is what arrived, what the system decided, and why — with the conversation available
+underneath rather than in front.
+
+Override tracking sits alongside it. When a human disagreed with a routing decision, that
+disagreement was recorded against the rule that produced it, which is what makes the rule set
+improvable rather than merely deployed.
+
+## Why we show this
+
+It is a working system we can walk you through: the architecture, the rule set, the screens, and the
+decisions behind each. You can ask why any rule exists and get an answer.

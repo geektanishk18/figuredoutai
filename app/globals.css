@@ -1,0 +1,427 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    /* Layer 1 adds a sticky h-16 nav; anchor targets clear it. */
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Smooth scrolling is a motion effect. Guard it, never apply it unconditionally. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-ink font-sans text-body antialiased;
+    margin: 0;
+    line-height: 1.55;
+    text-rendering: optimizeLegibility;
+    /* No horizontal scrollbar at any width. */
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading text-paper;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Remove the default focus ring only where a visible one is provided by .focus-ring. */
+  :focus-visible {
+    outline: none;
+  }
+
+  ::selection {
+    background: theme('colors.teal.DEFAULT');
+    color: theme('colors.paper');
+  }
+}
+
+@layer components {
+  /*
+   * Single focus treatment for every interactive element on the site.
+   * Keyboard-only (focus-visible), 2px sky ring, offset against the page ground.
+   */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky
+      focus-visible:ring-offset-2 focus-visible:ring-offset-ink;
+  }
+
+  /* Ring offset against a raised panel rather than the page. */
+  .focus-ring-panel {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky
+      focus-visible:ring-offset-2 focus-visible:ring-offset-panel;
+  }
+
+
+  /*
+   * Range slider.
+   *
+   * The filled portion is driven by a `--pct` custom property set inline by the
+   * component, so the fill follows the value without a second element or any
+   * JS-driven style recalculation. Both the WebKit and Firefox track
+   * pseudo-elements are styled — they cannot be combined into one selector
+   * list, because either engine drops the whole rule on an unknown selector.
+   */
+  .range {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 99px;
+    background: linear-gradient(
+      90deg,
+      theme('colors.teal.DEFAULT') var(--pct, 50%),
+      rgba(144, 194, 231, 0.15) var(--pct, 50%)
+    );
+  }
+
+  .range::-moz-range-track {
+    height: 6px;
+    border-radius: 99px;
+    background: rgba(144, 194, 231, 0.15);
+  }
+
+  .range::-moz-range-progress {
+    height: 6px;
+    border-radius: 99px;
+    background: theme('colors.teal.DEFAULT');
+  }
+
+  .range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: theme('colors.sky');
+    border: 4px solid theme('colors.panel.DEFAULT');
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    /* Centres a 28px thumb on a 6px track. */
+    margin-top: -11px;
+  }
+
+  .range::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: theme('colors.sky');
+    border: 4px solid theme('colors.panel.DEFAULT');
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .range:focus-visible {
+    outline: 2px solid theme('colors.sky');
+    outline-offset: 6px;
+    border-radius: 8px;
+  }
+
+  /* Horizontal scroller with a fade that marks content continuing off-screen. */
+  .edge-fade {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 14px,
+      #000 calc(100% - 28px),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 14px,
+      #000 calc(100% - 28px),
+      transparent 100%
+    );
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /*
+   * Scroll-reveal. Gated on `no-preference` so a reduced-motion visitor never
+   * sees content hidden, and undone by a <noscript> override in the layout for
+   * visitors without JavaScript.
+   */
+  [data-reveal] {
+    transition:
+      opacity 300ms ease-out,
+      transform 300ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal='hidden'] {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+
+  /*
+   * Liquid heading accent — ported from figuredoutai.com.
+   *
+   * The gradient is clipped to the glyphs and its background-position drifts
+   * once on entry; a soft glint sweeps across underneath. Only
+   * `background-position`, `opacity` and `transform` animate, and the single
+   * blur is 12px — well inside the 24px ceiling, so this stays off the mobile
+   * crash path that the large background blurs on the live site sit on.
+   *
+   * Every gradient stop clears AA against ink; the darkest measures 5.23:1.
+   */
+  .liquid {
+    position: relative;
+    display: inline-block;
+    color: transparent;
+    background: linear-gradient(
+        120deg,
+        #eff9ff 0%,
+        #cceeff 16%,
+        #6fcfff 38%,
+        #49b9ff 58%,
+        #6ee8ff 74%,
+        #2f7efc 88%,
+        #def8ff 100%
+      )
+      0 0 / 220% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 2px 12px rgba(4, 7, 12, 0.24);
+    animation: liquid-shift 2.8s ease-out both;
+  }
+
+  .liquid::before {
+    content: '';
+    position: absolute;
+    inset: 12% -3%;
+    pointer-events: none;
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.22) 46%,
+      transparent 60%
+    );
+    filter: blur(12px);
+    opacity: 0.55;
+    animation: liquid-glint 2.6s ease-out both;
+  }
+
+  .liquid::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 -8%;
+    height: 30%;
+    pointer-events: none;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.14));
+    -webkit-mask-image: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
+    mask-image: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
+  }
+
+  /*
+   * Under reduced motion the gradient stays — it is brand, not movement — but
+   * it settles at its mid position and nothing drifts or sweeps.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    .liquid {
+      animation: none;
+      background-position: 50% 50%;
+    }
+
+    .liquid::before {
+      animation: none;
+      opacity: 0.28;
+    }
+  }
+
+  /*
+   * Glass motion — specular, not structural.
+   *
+   * Light moves across the surface; the surface does not move. Everything here
+   * animates `transform`, `opacity` or `background-position` only, so it stays
+   * on the compositor.
+   *
+   * `backdrop-filter`, `filter` and blur radius are NEVER animated: each frame
+   * would re-rasterise the entire backdrop, which is the single most expensive
+   * thing a glass UI can do and the usual reason glass designs become unusable
+   * on mid-range Android.
+   */
+
+  /* Edge-light follow — a highlight tracks the pointer along the border. */
+  .glass-edge {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .glass-edge::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+      18rem circle at var(--edge-x, 50%) var(--edge-y, 0%),
+      rgba(144, 194, 231, 0.16),
+      transparent 60%
+    );
+    transition: opacity 220ms ease;
+  }
+
+  @media (hover: hover) {
+    .glass-edge:hover::before {
+      opacity: 1;
+    }
+  }
+
+  /* Depth lift — interactive cards only. Transform and shadow, nothing else. */
+  .glass-lift {
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  @media (hover: hover) {
+    .glass-lift:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        inset 0 1px 0 rgba(240, 237, 239, 0.12),
+        0 14px 40px rgba(3, 10, 14, 0.46);
+    }
+  }
+
+  /*
+   * Specular sweep on entry — the `.liquid` glint generalised to a panel.
+   * Runs once, then the element is inert.
+   */
+  .glass-sweep::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      100deg,
+      transparent 38%,
+      rgba(240, 237, 239, 0.10) 50%,
+      transparent 62%
+    );
+    background-size: 260% 100%;
+    animation: glass-sweep 1.6s ease-out both;
+  }
+
+  @keyframes glass-sweep {
+    from {
+      background-position: 130% 0;
+      opacity: 0;
+    }
+    30% {
+      opacity: 1;
+    }
+    to {
+      background-position: -30% 0;
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glass-edge::before,
+    .glass-lift,
+    .glass-sweep::after {
+      transition: none;
+      animation: none;
+    }
+
+    .glass-lift:hover {
+      transform: none;
+    }
+
+    .glass-sweep::after {
+      display: none;
+    }
+  }
+
+  /* Skip link — visible only once focused. */
+  .skip-link {
+    @apply focus-ring sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4
+      focus:z-[100] focus:rounded-lg focus:bg-teal focus:px-4 focus:py-3 focus:text-sm
+      focus:font-semibold focus:text-paper;
+  }
+}
+
+@layer utilities {
+  /*
+   * Animated numbers must not shift layout.
+   * Pair with an explicit min-width on the element that holds the figure.
+   */
+  .num {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+}
+
+/*
+ * Rule 8 — prefers-reduced-motion is respected on every animation, without exception.
+ * This is the site-wide backstop; components additionally branch on the setting where
+ * they need to render a different end state rather than simply stopping.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,25 @@
+The people qualified to answer technical questions are the people currently on a roof.
+
+## How intake fails here
+
+- **Technicians are on site, so nobody answers.** The office phone is covered by whoever is not out,
+  which on a busy day is nobody.
+- **Urgency is indistinguishable.** A bedroom unit not cooling and a server room climbing through
+  thirty degrees arrive as the same call. One of them is an emergency.
+- **AMC clients are not recognised.** A contracted customer waits in the same queue as a cold caller,
+  which is the fastest way to lose a renewal.
+- **Jobs are scoped on the call, badly.** "AC not working" dispatches a technician who arrives
+  without the diagnostic tools, the ladder, or the part.
+- **Repeat visits are absorbed as normal.** A second trip for a part that could have been identified
+  in the first conversation is a day of margin gone.
+- **Commercial enquiries are handled like residential.** A four-unit VRF fault routed to a
+  split-system technician wastes both the visit and the relationship.
+
+## What changes
+
+Dispatch receives a scoped job instead of a callback request: system type, symptom, contract status,
+units affected and an access window, with the priority already decided by rules you wrote.
+
+The office phone stops being the bottleneck between a failing system and a technician. And because
+every dispatch decision is logged with the rule behind it, you can see whether your priority
+thresholds actually match how your engineers would have triaged the same call.
