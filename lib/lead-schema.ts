@@ -1,27 +1,31 @@
 import { z } from 'zod'
+import { industryOpts } from '@/lib/content/industry-opts'
+import { registryRows } from '@/lib/content/registry-rows'
+import { volumeOpts } from '@/lib/content/volume-opts'
 
 /**
  * The single schema for an audit request. Imported by the form and re-run by the
  * Route Handler — the server never trusts that the client validated anything.
  */
 
-export const INDUSTRY_OPTIONS = [
-  'Clinics & Healthcare',
-  'Real Estate',
-  'Restaurants & Food',
-  'Travel',
-  'Recruitment & Staffing',
-  'HVAC & Field Services',
-  'Other',
-] as const
+/**
+ * The vertical registry drives the industry pages and this select from one
+ * place. These lists were previously retyped here, and had already drifted —
+ * the form offered "Clinics & Healthcare" and "HVAC & Field Services" while the
+ * registry and the whole of the rest of the site said "Clinics" and "HVAC", so
+ * a lead arrived labelled with a category no page used.
+ */
+export const INDUSTRY_OPTIONS = industryOpts
+export const VOLUME_OPTIONS = volumeOpts
 
-export const VOLUME_OPTIONS = [
-  'Under 200',
-  '200–1,000',
-  '1,000–5,000',
-  '5,000+',
-  'Not sure',
-] as const
+/**
+ * The select is the registry plus "Other". If a vertical is added to the
+ * canvas and this list is not regenerated, the build fails here rather than
+ * shipping a form that cannot describe one of the industries the site sells.
+ */
+const _registryCoversTheSelect: true =
+  (INDUSTRY_OPTIONS.length === registryRows.length + 1) as true
+void _registryCoversTheSelect
 
 export const leadSchema = z.object({
   name: z

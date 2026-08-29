@@ -7,7 +7,7 @@ export type ButtonSize = 'sm' | 'md' | 'lg'
 
 const base = [
   'inline-flex items-center justify-center gap-2 rounded-xl font-semibold',
-  'transition-colors duration-180',
+  '',
   'focus-ring',
   'disabled:cursor-not-allowed disabled:opacity-50',
   // 44px minimum touch target at every size.

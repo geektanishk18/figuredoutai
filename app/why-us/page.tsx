@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Content from '@/content/why-us.mdx'
 import { PageShell } from '@/components/content/PageShell'
+import { VerificationCards } from '@/components/content/VerificationCards'
 
 export const metadata: Metadata = {
   title: 'Why FiguredoutAI — Decision Logic, Not Chatbots',
@@ -21,6 +22,7 @@ export default function WhyUsPage() {
       ]}
     >
       <Content />
+      <VerificationCards headingId="verification" />
     </PageShell>
   )
 }

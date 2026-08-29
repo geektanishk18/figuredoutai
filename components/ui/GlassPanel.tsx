@@ -47,7 +47,7 @@ export function GlassPanel({
     <Tag
       className={cn(
         'glass-panel glass-edge relative overflow-hidden rounded-card border p-5 sm:p-6',
-        interactive && 'glass-lift hover:border-sky/40',
+        interactive && 'glass-lift',
         sweep && 'glass-sweep',
         className,
       )}

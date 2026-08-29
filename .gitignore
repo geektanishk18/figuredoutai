@@ -32,3 +32,6 @@ tsconfig.tsbuildinfo
 
 # local tooling config — contains machine-specific absolute paths
 /.claude
+
+# design canvas archive — reference only, never imported or shipped
+/design

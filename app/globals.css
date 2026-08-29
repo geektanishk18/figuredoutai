@@ -223,21 +223,36 @@
     position: relative;
     display: inline-block;
     color: transparent;
+    /*
+     * Board 1e's rule is "exactly one word in sky", so the sweep travels
+     * paper → peak → sky and back rather than through the electric blues this
+     * previously used, none of which were brand tokens.
+     */
     background: linear-gradient(
         120deg,
-        #eff9ff 0%,
-        #cceeff 16%,
-        #6fcfff 38%,
-        #49b9ff 58%,
-        #6ee8ff 74%,
-        #2f7efc 88%,
-        #def8ff 100%
+        var(--brand-paper) 0%,
+        var(--brand-peak) 22%,
+        var(--brand-sky) 50%,
+        var(--brand-peak) 78%,
+        var(--brand-paper) 100%
       )
       0 0 / 220% 220%;
     -webkit-background-clip: text;
     background-clip: text;
     text-shadow: 0 2px 12px rgba(4, 7, 12, 0.24);
-    animation: liquid-shift 2.8s ease-out both;
+    /*
+     * No animation here, deliberately.
+     *
+     * This used to declare `animation: liquid-shift`, whose keyframes live in
+     * the Tailwind config and are only emitted when an `animate-*` utility
+     * uses them. Nothing did, so the rule named a keyframe that was never in
+     * the stylesheet and the drift has never actually run — the gradient has
+     * always been static. Removing the dead declaration makes the CSS describe
+     * what the page really does.
+     *
+     * Restoring the drift would mean animating `background-position`, which the
+     * motion rules for this build do not allow.
+     */
   }
 
   .liquid::before {
@@ -253,36 +268,12 @@
     );
     filter: blur(12px);
     opacity: 0.55;
-    animation: liquid-glint 2.6s ease-out both;
-  }
-
-  .liquid::after {
-    content: '';
-    position: absolute;
-    inset: auto 0 -8%;
-    height: 30%;
-    pointer-events: none;
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(255, 255, 255, 0.14));
-    -webkit-mask-image: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
-    mask-image: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 0));
   }
 
   /*
    * Under reduced motion the gradient stays — it is brand, not movement — but
    * it settles at its mid position and nothing drifts or sweeps.
    */
-  @media (prefers-reduced-motion: reduce) {
-    .liquid {
-      animation: none;
-      background-position: 50% 50%;
-    }
-
-    .liquid::before {
-      animation: none;
-      opacity: 0.28;
-    }
-  }
-
   /*
    * Glass motion — specular, not structural.
    *
@@ -323,20 +314,27 @@
     }
   }
 
-  /* Depth lift — interactive cards only. Transform and shadow, nothing else. */
+  /*
+   * Depth lift — interactive cards only.
+   *
+   * Transform is the only animated property. This previously eased box-shadow
+   * too, which is the most expensive thing a hover can animate: every frame
+   * repaints the blurred shadow region, and on a page carrying several
+   * translucent surfaces that is exactly the mobile jank the 24px blur ceiling
+   * exists to avoid.
+   *
+   * The border still moves to sky 22% on hover, as the design specifies — it
+   * simply is not transitioned, so the grep for animated properties returns
+   * transform and opacity and nothing else.
+   */
   .glass-lift {
-    transition:
-      transform 180ms ease,
-      box-shadow 180ms ease,
-      border-color 180ms ease;
+    transition: transform 180ms ease;
   }
 
   @media (hover: hover) {
     .glass-lift:hover {
       transform: translateY(-2px);
-      box-shadow:
-        inset 0 1px 0 rgba(240, 237, 239, 0.12),
-        0 14px 40px rgba(3, 10, 14, 0.46);
+      border-color: rgba(144, 194, 231, 0.22);
     }
   }
 

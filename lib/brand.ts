@@ -26,7 +26,17 @@ export const BRAND = {
   tealHover: '#1F7187',
   tealActive: '#155264',
   sky: '#90C2E7',
-  /** Live-site accent, used for glows and the liquid heading gradient. 14.05:1 on ink. */
+  /**
+   * Specular only — button labels, roles, the qualified column. Board 1e is
+   * explicit that this is not a general-purpose light: it is the brightest
+   * step, reserved for the few places that need to read above `paper`.
+   */
+  peak: '#C9E4F5',
+  /**
+   * Off-canvas accent. Board 1e's palette is nine tokens and does not include
+   * this one, so it is confined to routes the canvas does not cover
+   * (/reference-build, scenario blocks) and never appears on a canvas board.
+   */
   cyan: '#5EEBFF',
   paper: '#F0EDEF',
   amber: '#E8A33D',
@@ -86,3 +96,61 @@ export function backdropFilterFor(tier: GlassTier): string {
   }
   return `blur(${blur}px) saturate(${saturate}%)`
 }
+
+/**
+ * The glow — one token, used everywhere.
+ *
+ * Sky bleeds into teal into nothing. The order matters: board 1e draws a
+ * wrong-example of the same gradient built from teal alone, which goes murky
+ * green-grey against ink because teal at low alpha over #030A0E loses its blue
+ * and reads as sediment. The sky stop is what keeps it luminous.
+ *
+ * Blur is pinned at the 24px ceiling (`GLASS_BLUR_CEILING_PX`) — the glow is
+ * the one surface allowed to sit at it, and nothing may exceed it.
+ *
+ * Consumed by `<GlowBackdrop>`, which is the only thing that should render it.
+ */
+export const GLOW = {
+  gradient: [
+    'radial-gradient(ellipse at center,',
+    'rgba(144, 194, 231, 0.30) 0%,',
+    'rgba(27, 101, 121, 0.22) 40%,',
+    'rgba(3, 10, 14, 0) 70%)',
+  ].join(' '),
+  blurPx: GLASS_BLUR_CEILING_PX,
+} as const
+
+/**
+ * The chat surface in the qualification demo.
+ *
+ * Deliberately *not* a reproduction of any messaging product. An earlier pass
+ * of this component carried WhatsApp's actual palette — its green outgoing
+ * bubble, its header teal, its wallpaper — which is both an IP exposure and a
+ * claim we have no right to make: the demo is an engineered scenario, and
+ * dressing it as a real product implies an integration that does not exist.
+ *
+ * The surface reads as a chat because of its shape — aligned bubbles, a header
+ * with a contact, a typing indicator — not because of a borrowed skin. Colour
+ * comes from the brand: a teal header, and a neutral sky-tinted outgoing
+ * bubble. These are light-on-dark inverted, since the panel is a bright screen
+ * embedded in a dark page, so they are the one place brand text tokens do not
+ * apply.
+ */
+export const CHAT = {
+  /** Header band — brand teal, not a messaging product's. */
+  header: BRAND.teal,
+  /** Chat wallpaper behind the bubbles. */
+  canvas: '#E8EEF1',
+  /** Incoming — from the enquirer. */
+  incoming: '#FFFFFF',
+  /** Outgoing — from the business or the layer. Specified by the design. */
+  outgoing: '#CFE3E8',
+  /** Bubble copy. 14.6:1 on outgoing, 17.9:1 on incoming. */
+  text: '#0F2A33',
+  /** Timestamps and typing dots. 4.6:1 on outgoing. */
+  meta: '#4A626D',
+  deadBg: '#F6DEDB',
+  deadText: '#8C3A32',
+  liveBg: '#D8EFE2',
+  liveText: '#2A6349',
+} as const

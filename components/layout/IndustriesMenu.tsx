@@ -85,7 +85,7 @@ export function IndustriesMenu({ active, isIndex, linkClassName }: IndustriesMen
             <Link
               href={`/industries/${industry.slug}`}
               tabIndex={open ? undefined : -1}
-              className="focus-ring-panel block rounded-lg px-3 py-2.5 text-sm text-body transition-colors duration-180 hover:bg-panel-raised hover:text-paper"
+              className="focus-ring-panel block rounded-lg px-3 py-2.5 text-sm text-body hover:bg-panel-raised hover:text-paper"
             >
               {industry.label}
             </Link>

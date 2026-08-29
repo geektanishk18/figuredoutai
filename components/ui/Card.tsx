@@ -19,7 +19,9 @@ export function Card({
     <Tag
       className={cn(
         'rounded-card border border-line bg-panel p-5 sm:p-6',
-        interactive && 'transition-colors duration-180 hover:border-sky/40 hover:bg-panel-raised',
+        // Board 1e's card hover: lift 2px, border to sky 22%. `glass-lift` owns
+        // both, and is the only place the transform is written.
+        interactive && 'glass-lift hover:bg-panel-raised',
         className,
       )}
       {...rest}

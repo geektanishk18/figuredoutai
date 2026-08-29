@@ -29,7 +29,7 @@ export const CONTACT = {
 } as const
 
 export const CTA = {
-  label: 'Get Your Free Audit',
+  label: 'Get your intake audit',
   href: '/contact',
 } as const
 

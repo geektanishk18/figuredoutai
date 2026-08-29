@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
+import { ProvenanceChip } from '@/components/content'
 import type { IndustrySlug } from '@/lib/constants'
 import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
 import { cn } from '@/lib/utils'
@@ -77,8 +78,8 @@ export function IndustryDemo({
                     aria-pressed={selected}
                     onClick={() => selectIndustry(entry.slug)}
                     className={cn(
-                      'focus-ring min-h-[40px] flex-none whitespace-nowrap rounded-full border px-3.5',
-                      'text-[13px] font-semibold transition-colors duration-180',
+                      'focus-ring min-h-[44px] flex-none whitespace-nowrap rounded-full border px-3.5',
+                      'text-[13px] font-semibold',
                       selected
                         ? 'border-teal bg-teal text-paper'
                         : 'border-line bg-panel text-muted hover:text-paper',
@@ -110,9 +111,9 @@ export function IndustryDemo({
         />
       </div>
 
-      <p className="mt-5 text-center text-[10.5px] text-muted/70">
-        This is a demonstration mockup — not real data.
-      </p>
+      <div className="mt-5 flex justify-center">
+        <ProvenanceChip tier="scenario" />
+      </div>
     </div>
   )
 }

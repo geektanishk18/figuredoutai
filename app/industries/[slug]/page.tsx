@@ -10,6 +10,8 @@ import Hvac from '@/content/industries/hvac.mdx'
 import { IndustryDemo } from '@/components/demo'
 import { PageShell } from '@/components/content/PageShell'
 import { ScenarioBlock } from '@/components/content/ScenarioBlock'
+import { ConflictResolution } from '@/components/content/ConflictResolution'
+import { NextStepBand } from '@/components/content/NextStepBand'
 import { ProofSchema, ServiceSchema } from '@/components/seo/JsonLd'
 import { SectionHeading } from '@/components/ui'
 import { INDUSTRIES, SITE_URL, type IndustrySlug, getIndustry } from '@/lib/constants'
@@ -83,6 +85,9 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
       >
         <Content />
         <ScenarioBlock scenario={scenario} />
+        {/* Boards 1c and 2b close the architecture section here. Renders only
+            for the verticals the canvas authors conflict rules for. */}
+        <ConflictResolution slug={industry.slug} headingId="conflict-resolution" />
       </PageShell>
 
       <section
@@ -98,8 +103,11 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
             description="The same enquiry, handled two ways — and what the gap between them costs over a year."
             className="mx-auto mb-10 text-center"
           />
-          {/* Pre-set to this industry; the switcher is redundant on a page about it. */}
-          <IndustryDemo defaultIndustry={industry.slug} showSwitcher={false} />
+          {/* Boards 1c and 2b both pass switcher="true": the reader has already
+              picked a subject, so letting them compare verticals is useful here
+              in a way it is not on the homepage. */}
+          <IndustryDemo defaultIndustry={industry.slug} showSwitcher />
+          <NextStepBand slug={industry.slug} headingId="next-step" />
         </div>
       </section>
     </>

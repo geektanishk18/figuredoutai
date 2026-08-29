@@ -48,14 +48,18 @@ export function Provenance({ tier, className }: { tier: PublishableTier; classNa
   if (!entry) throw new Error(`Unknown Provenance tier "${tier}".`)
 
   return (
+    // Styling is board 1e's provenance chip, to the value: 9px Inter 500 at
+    // 0.2em, sky at 72% on a 20% sky border, a 4px radius, and a 1px leading
+    // tick rather than a dot. The chip is deliberately quiet — it is a
+    // disclosure, not a badge, and must not read as a credential.
     <p
       className={cn(
-        'inline-flex items-center gap-2 rounded-full border border-sky/30 bg-panel px-3 py-1.5',
-        'font-heading text-[10.5px] font-semibold uppercase tracking-[0.14em] text-sky',
+        'inline-flex w-fit items-center gap-2 rounded-chip border border-sky/20 bg-panel px-2.5 py-1',
+        'font-sans text-[9px] font-medium uppercase leading-none tracking-[0.2em] text-sky/[0.72]',
         className,
       )}
     >
-      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-sky" />
+      <span aria-hidden="true" className="h-2.5 w-px shrink-0 bg-sky/40" />
       {entry.label}
     </p>
   )

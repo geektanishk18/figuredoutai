@@ -3,7 +3,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui'
 import { CONTACT } from '@/lib/constants'
 import { INDUSTRY_OPTIONS, INTAKE_MAX, VOLUME_OPTIONS, leadSchema, type LeadInput } from '@/lib/lead-schema'
@@ -12,7 +11,7 @@ import { cn } from '@/lib/utils'
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
 const fieldBase =
-  'focus-ring w-full rounded-xl border bg-ink px-3.5 py-3 text-[15px] text-paper placeholder:text-muted/70 transition-colors duration-180'
+  'focus-ring w-full rounded-xl border bg-ink px-3.5 py-3 text-[15px] text-paper placeholder:text-muted/70'
 
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null
@@ -101,10 +100,9 @@ export function LeadForm() {
         role="status"
         className="focus-ring rounded-card border border-ok/40 bg-panel p-7 sm:p-8"
       >
-        <h3 className="text-xl font-semibold text-paper">Received.</h3>
+        <h3 className="text-xl font-semibold text-paper">Your request is with us.</h3>
         <p className="mt-4 text-[16px] leading-relaxed text-body">
-          We&rsquo;ll reply within one business day. If it hasn&rsquo;t arrived, check your spam
-          folder or write to us directly at{' '}
+          We reply within one business day. If nothing arrives, write to{' '}
           <a
             href={`mailto:${CONTACT.email}`}
             className="focus-ring rounded text-sky underline underline-offset-4"
@@ -120,7 +118,19 @@ export function LeadForm() {
   const pending = status === 'submitting' || isSubmitting
 
   return (
-    <form onSubmit={onSubmit} noValidate aria-busy={pending} className="space-y-5">
+    <form
+      onSubmit={onSubmit}
+      noValidate
+      aria-busy={pending}
+      className={cn(
+        'space-y-5 transition-opacity duration-180',
+        // Board 2a, state 03: the whole form drops to 45% and stops taking
+        // input while the request is in flight. This is also the second guard
+        // against a double submit — the first is the in-flight ref, which holds
+        // even if a pointer event slips through.
+        pending && 'pointer-events-none opacity-45',
+      )}
+    >
       <div>
         <label htmlFor={`${baseId}-name`} className="block text-sm font-medium text-body">
           Name
@@ -305,14 +315,8 @@ export function LeadForm() {
 
       <div className="pt-1">
         <Button type="submit" size="lg" disabled={pending} className="w-full sm:w-auto">
-          {pending ? (
-            <>
-              <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
-              Sending…
-            </>
-          ) : (
-            'Request audit'
-          )}
+          {/* Board 2a: "No spinner — the label carries it." */}
+          {pending ? 'Sending…' : 'Request audit'}
         </Button>
         <p className="mt-3 text-sm text-muted">
           We reply within one business day. No newsletter, no automated sequence.

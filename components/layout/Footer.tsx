@@ -4,7 +4,7 @@ import { COMPANY, CONTACT, FOOTER_NAV, INDUSTRIES, LEGAL_NAV } from '@/lib/const
 
 const columnHeading = 'font-heading text-xs font-semibold uppercase tracking-[0.16em] text-sky'
 const listLink =
-  'focus-ring -mx-2 block rounded-lg px-2 py-1.5 text-sm text-body transition-colors duration-180 hover:text-paper'
+  'focus-ring -mx-2 block rounded-lg px-2 py-1.5 text-sm text-body hover:text-paper'
 
 export function Footer() {
   return (
@@ -82,7 +82,7 @@ export function Footer() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="focus-ring rounded-lg text-sm text-muted transition-colors duration-180 hover:text-paper"
+                  className="focus-ring rounded-lg text-sm text-muted hover:text-paper"
                 >
                   {item.label}
                 </Link>

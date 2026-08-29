@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Manrope } from 'next/font/google'
+import { Inter, Poppins } from 'next/font/google'
 import { Footer } from '@/components/layout/Footer'
 import { OrganizationSchema, WebSiteSchema } from '@/components/seo/JsonLd'
 import { Nav } from '@/components/layout/Nav'
@@ -19,13 +19,14 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
-// Manrope is the heading face on figuredoutai.com — matched here so the rebuild
-// reads as the same brand.
-const manrope = Manrope({
+// Poppins is the display face specified by board 1e — 700 for hero and page
+// H1, 600 for section and card headings. Only those two weights are loaded;
+// the token sheet asks for nothing else.
+const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['500', '600', '700'],
+  weight: ['600', '700'],
   display: 'swap',
-  variable: '--font-manrope',
+  variable: '--font-poppins',
 })
 
 export const metadata: Metadata = {
@@ -75,7 +76,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${manrope.variable}`}>
+    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
       <body className="flex min-h-screen flex-col">
         {/*
           Scroll-reveal sections start hidden and are uncovered by an

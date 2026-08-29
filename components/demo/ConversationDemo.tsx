@@ -9,8 +9,8 @@ import { useScriptPlayer } from './useScriptPlayer'
 export type DemoTab = 'today' | 'layer'
 
 const TABS: { id: DemoTab; label: string }[] = [
-  { id: 'today', label: 'What happens today' },
-  { id: 'layer', label: 'With the decision layer' },
+  { id: 'today', label: 'What happens now' },
+  { id: 'layer', label: 'With the layer in place' },
 ]
 
 function Message({ message }: { message: RenderedMessage }) {
@@ -19,9 +19,9 @@ function Message({ message }: { message: RenderedMessage }) {
       <div
         className={cn(
           'mx-auto max-w-[88%] shrink-0 rounded-lg px-3 py-1.5 text-center text-[11.5px]',
-          message.tone === 'dead' && 'bg-[#FBE0DE] font-semibold text-[#9A3B33]',
-          message.tone === 'live' && 'bg-[#D9FDD3] font-semibold text-[#1D6B49]',
-          (!message.tone || message.tone === 'neutral') && 'bg-white/90 text-[#54656F]',
+          message.tone === 'dead' && 'bg-chat-dead-bg font-semibold text-chat-dead-text',
+          message.tone === 'live' && 'bg-chat-live-bg font-semibold text-chat-live-text',
+          (!message.tone || message.tone === 'neutral') && 'bg-chat-incoming/90 text-chat-meta',
         )}
       >
         {message.text}
@@ -34,9 +34,9 @@ function Message({ message }: { message: RenderedMessage }) {
   return (
     <div
       className={cn(
-        'w-fit max-w-[82%] shrink-0 rounded-[9px] px-2.5 pb-1.5 pt-2 text-[13.5px] leading-snug text-[#111B21]',
+        'w-fit max-w-[82%] shrink-0 rounded-[9px] px-2.5 pb-1.5 pt-2 text-[13.5px] leading-snug text-chat-text',
         'shadow-[0_1px_1px_rgba(0,0,0,0.12)]',
-        incoming ? 'self-start rounded-tl-sm bg-white' : 'self-end rounded-tr-sm bg-[#D9FDD3]',
+        incoming ? 'self-start rounded-tl-sm bg-chat-incoming' : 'self-end rounded-tr-sm bg-chat-outgoing',
       )}
     >
       <span>{message.text}</span>
@@ -47,10 +47,10 @@ function Message({ message }: { message: RenderedMessage }) {
             <span
               key={option}
               className={cn(
-                'rounded-full border border-[#0E5C52] px-2.5 py-1 text-[12px] font-semibold',
+                'rounded-full border border-chat-header px-2.5 py-1 text-[12px] font-semibold',
                 message.pickedIndex === index
-                  ? 'bg-[#0E5C52] text-white'
-                  : 'bg-white text-[#0E5C52]',
+                  ? 'bg-chat-header text-chat-incoming'
+                  : 'bg-chat-incoming text-chat-header',
               )}
             >
               {option}
@@ -60,7 +60,7 @@ function Message({ message }: { message: RenderedMessage }) {
       ) : null}
 
       {message.at ? (
-        <span className="float-right ml-2 mt-1 text-[10px] leading-none text-[#111B21]/45">
+        <span className="float-right ml-2 mt-1 text-[10px] leading-none text-chat-meta">
           {message.at}
         </span>
       ) : null}
@@ -146,7 +146,7 @@ export function ConversationDemo({
               onKeyDown={(event) => onTabKeyDown(event, index)}
               className={cn(
                 'focus-ring min-h-[44px] flex-1 rounded-xl border px-2 py-2.5 text-[13.5px] font-semibold',
-                'transition-colors duration-180',
+                '',
                 selected
                   ? 'border-teal bg-teal text-paper'
                   : 'border-line bg-panel text-muted hover:text-paper',
@@ -165,8 +165,8 @@ export function ConversationDemo({
         tabIndex={0}
         className="focus-ring rounded-card"
       >
-        <div className="overflow-hidden rounded-card border border-black/40 bg-[#ECE5DD] shadow-[0_14px_34px_rgba(0,0,0,0.5)]">
-          <div className="flex items-center gap-2.5 bg-[#0E5C52] px-3.5 py-2.5 text-white">
+        <div className="overflow-hidden rounded-card border border-black/40 bg-chat-canvas shadow-[0_14px_34px_rgba(0,0,0,0.5)]">
+          <div className="flex items-center gap-2.5 bg-chat-header px-3.5 py-2.5 text-paper">
             <span
               aria-hidden="true"
               className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-white/20 text-xs font-bold"
@@ -204,11 +204,11 @@ export function ConversationDemo({
               {typing ? (
                 <div
                   aria-hidden="true"
-                  className="flex w-fit shrink-0 gap-1 self-start rounded-[9px] rounded-tl-sm bg-white px-3 py-2.5"
+                  className="flex w-fit shrink-0 gap-1 self-start rounded-[9px] rounded-tl-sm bg-chat-incoming px-3 py-2.5"
                 >
-                  <i className="block h-1.5 w-1.5 animate-typing rounded-full bg-[#9AA6AB]" />
-                  <i className="block h-1.5 w-1.5 animate-typing rounded-full bg-[#9AA6AB] [animation-delay:0.18s]" />
-                  <i className="block h-1.5 w-1.5 animate-typing rounded-full bg-[#9AA6AB] [animation-delay:0.36s]" />
+                  <i className="block h-1.5 w-1.5 animate-typing rounded-full bg-chat-meta" />
+                  <i className="block h-1.5 w-1.5 animate-typing rounded-full bg-chat-meta [animation-delay:0.18s]" />
+                  <i className="block h-1.5 w-1.5 animate-typing rounded-full bg-chat-meta [animation-delay:0.36s]" />
                 </div>
               ) : null}
             </div>
@@ -226,17 +226,17 @@ export function ConversationDemo({
           {finished ? verdict.badge : '—'}
         </span>
         <p className="text-[12.5px] leading-snug text-body">
-          {finished ? verdict.text : 'Playing…'}
+          {finished ? verdict.text : 'Running…'}
         </p>
       </div>
 
       <button
         type="button"
         onClick={replay}
-        className="focus-ring mt-2.5 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-line bg-transparent text-[13px] font-semibold text-sky transition-colors duration-180 hover:bg-sky/10"
+        className="focus-ring mt-2.5 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-line bg-transparent text-[13px] font-semibold text-sky hover:bg-sky/10"
       >
         <RotateCcw aria-hidden="true" className="h-4 w-4" />
-        Replay this conversation
+        Replay
       </button>
     </div>
   )

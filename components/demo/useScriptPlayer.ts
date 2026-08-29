@@ -127,19 +127,23 @@ export function useScriptPlayer({
     clearTimers()
     const token = ++runToken.current
 
+    // Bring the thread into line with the current runKey *before* the
+    // visibility check. Returning early while out of view used to leave the
+    // previous industry's messages on screen under the new industry's header —
+    // switch verticals with the panel just below the fold, scroll up, and the
+    // clinic conversation was sitting under the HVAC contact until playback
+    // restarted. The thread must never describe a vertical other than the
+    // selected one, visible or not.
+    const alreadyPlayed = completedKey.current === runKey
+    setMessages(alreadyPlayed ? snapshot : [])
+    setTyping(false)
+    setFinished(alreadyPlayed)
+
+    // Offscreen: correct content, no timers burning.
     if (!inView) return clearTimers
 
     // A run that already played through stays finished when scrolled back to.
-    if (completedKey.current === runKey) {
-      setMessages(snapshot)
-      setTyping(false)
-      setFinished(true)
-      return clearTimers
-    }
-
-    setMessages([])
-    setTyping(false)
-    setFinished(false)
+    if (alreadyPlayed) return clearTimers
 
     if (reducedMotion) {
       setMessages(snapshot)

@@ -39,6 +39,13 @@ export function Hero() {
             See it work
           </Button>
         </div>
+
+        {/*
+          Board 1f adds this under every primary CTA. It answers the question the
+          button raises — what am I actually agreeing to — at the point the
+          reader asks it, rather than leaving it to the contact page.
+        */}
+        <p className="mt-5 text-sm text-muted">Three working days. No cost, no obligation.</p>
       </Container>
     </section>
   )

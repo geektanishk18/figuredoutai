@@ -50,9 +50,15 @@ export interface IndustryDemo {
    * every industry so the figure stays conservative and comparable.
    */
   conversionFactor: number
-  metrics: { missedLabel: string; outcomeLabel: string }
-  /** Reads as "… × unit value, per closing" under the headline figure. */
-  unitNoun: string
+  /**
+   * Plural nouns the panel builds its own labels from — "enquiries" missed,
+   * "patients" lost. The design composes the metric captions and the
+   * conservative-assumption footnote from these two words, so they are stored
+   * rather than the finished sentences: one noun to change per vertical, and
+   * the three places it appears cannot drift apart.
+   */
+  missedNoun: string
+  noun: string
   scripts: { today: readonly Step[]; layer: readonly Step[] }
   verdicts: { today: Verdict; layer: Verdict }
 }

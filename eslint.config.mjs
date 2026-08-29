@@ -25,7 +25,7 @@ const copySelectors = (patterns, message) =>
 
 const config = [
   {
-    ignores: ['legacy/**', '.next/**', 'node_modules/**', 'next-env.d.ts'],
+    ignores: ['legacy/**', 'design/**', '.next/**', 'node_modules/**', 'next-env.d.ts'],
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
   {

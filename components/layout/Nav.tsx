@@ -11,13 +11,24 @@ import { IndustriesMenu } from './IndustriesMenu'
 import { MobileDrawer } from './MobileDrawer'
 
 const linkBase =
-  'focus-ring rounded-lg px-2.5 py-2 text-sm font-medium transition-colors duration-180'
+  'focus-ring rounded-lg px-2.5 py-2 text-sm font-medium'
 
 export function Nav() {
   const pathname = usePathname()
   const [drawerOpen, setDrawerOpen] = useState(false)
   const toggleRef = useRef<HTMLButtonElement>(null)
   const drawerTitleId = useId()
+
+  // The nav's ground fades in once the page has moved. Over the hero the bar
+  // sits on the glow with nothing behind it; past that it has to hold its own
+  // against arbitrary content scrolling underneath.
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const isActive = useCallback(
     (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href)),
@@ -48,9 +59,22 @@ export function Nav() {
           // fallback and the reduced-transparency branch; this never writes one.
           // bg-ink/85 sits under the glass so the nav stays opaque enough to
           // read against any section that scrolls beneath it.
-          'bg-ink/85 glass-veil',
+          'glass-veil',
         )}
       >
+        {/*
+          The opaque ground lives on its own layer purely so that scrolling
+          animates opacity rather than a background colour. Same look, but it
+          composites instead of repainting the bar, and it keeps the audit of
+          animated properties down to transform and opacity.
+        */}
+        <div
+          aria-hidden="true"
+          className={cn(
+            'pointer-events-none absolute inset-0 -z-10 bg-ink/85 transition-opacity duration-180',
+            scrolled ? 'opacity-100' : 'opacity-0',
+          )}
+        />
         <Container className="flex h-16 items-center justify-between gap-4">
           <Link
             href="/"

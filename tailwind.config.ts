@@ -1,6 +1,6 @@
 import type { Config } from 'tailwindcss'
 import plugin from 'tailwindcss/plugin'
-import { BRAND, GLASS, GLASS_LAYERS } from './lib/brand'
+import { BRAND, CHAT, GLASS, GLASS_LAYERS } from './lib/brand'
 
 /**
  * Brand tokens are the single source of colour truth for the site.
@@ -21,6 +21,20 @@ const config: Config = {
     './lib/**/*.{ts,tsx}',
     './content/**/*.{md,mdx}',
   ],
+  /**
+   * Tailwind's content scan is plain string matching, so the word
+   * "transition" inside a code comment was enough to emit the bare
+   * `.transition` utility — whose property list includes box-shadow, filter
+   * and backdrop-filter, every one of them forbidden here. No element ever
+   * used the class, but the rule sat in the built CSS and any honest audit of
+   * animated properties had to flag it. Blocking it keeps that audit clean and
+   * makes reaching for the catch-all a build-time no-op rather than a
+   * performance regression nobody notices.
+   *
+   * The explicit `transition-opacity` / `transition-transform` utilities are
+   * unaffected.
+   */
+  blocklist: ['transition'],
   theme: {
     extend: {
       colors: {
@@ -28,25 +42,68 @@ const config: Config = {
         panel: { DEFAULT: BRAND.panel, raised: BRAND.panelRaised },
         teal: { DEFAULT: BRAND.teal, hover: BRAND.tealHover, active: BRAND.tealActive },
         sky: BRAND.sky,
+        peak: BRAND.peak,
         cyan: BRAND.cyan,
         paper: BRAND.paper,
         amber: BRAND.amber,
         loss: BRAND.loss,
         ok: BRAND.ok,
+        /**
+         * The demo's inverted chat surface. Scoped under `chat-` so it is
+         * obvious at the call site that these are not page text tokens and do
+         * not follow the on-ink opacity ladder.
+         */
+        chat: {
+          header: CHAT.header,
+          canvas: CHAT.canvas,
+          incoming: CHAT.incoming,
+          outgoing: CHAT.outgoing,
+          text: CHAT.text,
+          meta: CHAT.meta,
+          'dead-bg': CHAT.deadBg,
+          'dead-text': CHAT.deadText,
+          'live-bg': CHAT.liveBg,
+          'live-text': CHAT.liveText,
+        },
         line: BRAND.line,
         body: BRAND.body,
         muted: BRAND.muted,
       },
       fontFamily: {
-        heading: ['var(--font-manrope)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-poppins)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       maxWidth: {
         container: '72rem',
         prose: '44rem',
       },
+      /**
+       * Board 1e's radius scale, named by what each step is for. `card` is kept
+       * as an alias of the 16px step so existing call sites keep working.
+       */
       borderRadius: {
+        chip: '4px',
+        frame: '8px',
+        tab: '11px',
+        tile: '16px',
         card: '16px',
+        panel: '20px',
+      },
+      /**
+       * Board 1e's spacing scale. Tailwind's default numeric scale stays
+       * available; these are the named steps the design actually measures in,
+       * so a value like `p-card` is traceable back to the token sheet.
+       */
+      spacing: {
+        dot: '8px',
+        row: '14px',
+        card: '20px',
+        belief: '26px',
+        rules: '32px',
+        founder: '36px',
+        col: '48px',
+        gutter: '56px',
+        section: '88px',
       },
       transitionDuration: {
         180: '180ms',
@@ -59,15 +116,6 @@ const config: Config = {
         typing: {
           '0%, 60%, 100%': { opacity: '0.3' },
           '30%': { opacity: '1' },
-        },
-        // Ported from figuredoutai.com — the heading gradient drift and glint.
-        'liquid-shift': {
-          '0%, 100%': { backgroundPosition: '0% center' },
-          '50%': { backgroundPosition: '100% center' },
-        },
-        'liquid-glint': {
-          '0%, 100%': { opacity: '0.18', transform: 'translateX(-18%) skewX(-12deg)' },
-          '50%': { opacity: '0.5', transform: 'translateX(16%) skewX(-12deg)' },
         },
         // Compositor-only. Never add filter, box-shadow, width or opacity here.
         'orb-spin': {
@@ -94,6 +142,24 @@ const config: Config = {
      * defined here, with the tier itself, rather than left to each component
      * to remember.
      */
+    /**
+     * Brand values as CSS custom properties.
+     *
+     * `globals.css` needs a few brand colours for rules that Tailwind classes
+     * cannot express (gradients clipped to text, keyframes). Emitting them here
+     * from `BRAND` keeps `lib/brand.ts` the only place a colour is defined —
+     * without this, globals.css grows a second, silently drifting palette.
+     */
+    plugin(({ addBase }) => {
+      addBase({
+        ':root': {
+          '--brand-ink': BRAND.ink,
+          '--brand-sky': BRAND.sky,
+          '--brand-peak': BRAND.peak,
+          '--brand-paper': BRAND.paper,
+        },
+      })
+    }),
     plugin(({ addComponents }) => {
       const tiers = Object.entries(GLASS).map(([name, { blur, saturate }]) => [
         `.glass-${name}`,

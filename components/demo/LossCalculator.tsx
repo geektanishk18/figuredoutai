@@ -92,6 +92,18 @@ export function LossCalculator({
   const { missedPerMonth, realOpportunities, annualLoss } = calculate(industry, values)
   const conversionPct = Math.round(industry.conversionFactor * 100)
 
+  // Step the display size down as the figure lengthens, mirroring the design
+  // source. The thresholds are on the formatted string because Indian grouping
+  // adds separators faster than digits — ₹1,26,36,000 is 12 characters for 8
+  // digits — so character count, not magnitude, is what makes it wrap.
+  const loss = formatINR(annualLoss)
+  const lossSize =
+    loss.length > 12
+      ? 'text-[clamp(1.25rem,5.5vw,1.875rem)]'
+      : loss.length > 10
+        ? 'text-[clamp(1.375rem,6.5vw,2.25rem)]'
+        : 'text-[clamp(1.5rem,7vw,2.75rem)]'
+
   return (
     <div>
       <h3 id={headingId} className="sr-only">
@@ -123,16 +135,30 @@ export function LossCalculator({
           'bg-panel',
         )}
       >
-        <p className="text-[11px] uppercase tracking-[0.15em] text-muted">Lost over a year</p>
-        {/* aria-live so the figure is announced as the sliders move, and a
-            reserved min-width so a digit change cannot shift the layout. */}
-        <p
-          aria-live="polite"
-          aria-atomic="true"
-          className="num mt-3 min-w-[8ch] text-[clamp(1.5rem,7vw,2.75rem)] font-bold leading-none tracking-tight text-loss"
-        >
-          {formatINR(annualLoss)}
-        </p>
+        <p className="text-[11px] uppercase tracking-[0.15em] text-muted">Annual revenue lost</p>
+        {/*
+          The figure spans ₹43,200 to ₹5,89,68,00,000 as the sliders move, and at
+          full width the longest values wrapped to a second line — the card grew
+          by 14px and everything below it jumped. Two things hold the geometry
+          still: the row is a fixed-height flex box, so the type can resize
+          inside it without changing the card, and the size steps down by string
+          length so the figure never wraps in the first place.
+
+          aria-live announces the figure as the sliders move; aria-atomic keeps
+          it read as one number rather than digit by digit.
+        */}
+        <div className="mt-3 flex h-[3.25rem] items-center justify-center">
+          <p
+            aria-live="polite"
+            aria-atomic="true"
+            className={cn(
+              'num whitespace-nowrap font-bold leading-none tracking-tight text-loss',
+              lossSize,
+            )}
+          >
+            {loss}
+          </p>
+        </div>
         <p className="mt-2.5 text-[13px] text-muted">From people who had already chosen you</p>
 
         <div className="mt-4 flex border-t border-line pt-3.5">
@@ -141,7 +167,9 @@ export function LossCalculator({
               {formatCount(missedPerMonth)}
             </p>
             <p className="mt-1 text-[11px] leading-tight text-muted">
-              {industry.metrics.missedLabel}
+              {industry.missedNoun} missed
+              <br />
+              each month
             </p>
           </div>
           <div className="flex-1 border-l border-line px-2">
@@ -149,17 +177,19 @@ export function LossCalculator({
               {formatCount(realOpportunities)}
             </p>
             <p className="mt-1 text-[11px] leading-tight text-muted">
-              {industry.metrics.outcomeLabel}
+              {industry.noun} lost
+              <br />
+              each month
             </p>
           </div>
         </div>
       </div>
 
       <p className="mt-3 px-1 text-center text-[11.5px] leading-relaxed text-muted">
-        Deliberately conservative: only{' '}
-        <strong className="font-semibold text-body">{conversionPct}%</strong> of missed enquiries
-        are counted as real opportunities, valued {industry.unitNoun}. The other{' '}
-        {100 - conversionPct}% are ignored.
+        Deliberately conservative. Only{' '}
+        <strong className="font-semibold text-paper">{conversionPct}%</strong> of unanswered{' '}
+        {industry.missedNoun} are counted as real {industry.noun} — the same factor on every
+        vertical. The other {100 - conversionPct}% are left out of the arithmetic entirely.
       </p>
     </div>
   )
