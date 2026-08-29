@@ -8,7 +8,7 @@
  * their existing calls to action instead.
  */
 export const nextStepBand = {
-  'medical-clinics': {
+  'clinics': {
     eyebrow: 'Next step',
     title: 'Your three-day intake audit.',
     body: 'Which enquiries are going unanswered, what is still pending on WhatsApp, and what the clinics around you are doing.',

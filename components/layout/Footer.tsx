@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Container } from '@/components/ui'
+import { WORDMARK_HEIGHTS, Wordmark } from './Wordmark'
 import { COMPANY, CONTACT, FOOTER_NAV, INDUSTRIES, LEGAL_NAV } from '@/lib/constants'
 
 const columnHeading = 'font-heading text-xs font-semibold uppercase tracking-[0.16em] text-sky'
@@ -12,12 +13,8 @@ export function Footer() {
       <Container className="py-14 lg:py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div className="lg:pr-6">
-            <div className="flex items-center gap-2.5">
-              <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full bg-sky" />
-              <span className="font-heading text-base font-bold tracking-tight text-paper">
-                {COMPANY.name}
-              </span>
-            </div>
+            {/* Footer sits on `panel` — a dark surface, so the light wordmark. */}
+            <Wordmark height={WORDMARK_HEIGHTS.desktop} />
             <p className="mt-4 max-w-xs text-sm text-body">{COMPANY.positioning}</p>
           </div>
 

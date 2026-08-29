@@ -30,7 +30,7 @@ export function DemoSection() {
       </Reveal>
 
       <div className="mt-12">
-        <IndustryDemo defaultIndustry="medical-clinics" showSwitcher={false} />
+        <IndustryDemo defaultIndustry="clinics" showSwitcher={false} />
       </div>
     </Container>
   )

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import type { ComponentType } from 'react'
 import { notFound } from 'next/navigation'
-import MedicalClinics from '@/content/industries/medical-clinics.mdx'
+import Clinics from '@/content/industries/clinics.mdx'
 import RealEstate from '@/content/industries/real-estate.mdx'
 import Restaurants from '@/content/industries/restaurants.mdx'
 import Travel from '@/content/industries/travel.mdx'
@@ -20,7 +20,7 @@ import { getScenario } from '@/lib/scenarios'
 
 /** Static map rather than a dynamic import, so every page is bundled at build time. */
 const CONTENT: Record<IndustrySlug, ComponentType> = {
-  'medical-clinics': MedicalClinics,
+  'clinics': Clinics,
   'real-estate': RealEstate,
   restaurants: Restaurants,
   travel: Travel,

@@ -38,7 +38,7 @@ export const CTA = {
  * ------------------------------------------------------------------ */
 
 export const INDUSTRY_SLUGS = [
-  'medical-clinics',
+  'clinics',
   'real-estate',
   'restaurants',
   'travel',
@@ -60,8 +60,8 @@ export interface IndustryEntry {
 
 export const INDUSTRIES: readonly IndustryEntry[] = [
   {
-    slug: 'medical-clinics',
-    label: 'Medical Clinics',
+    slug: 'clinics',
+    label: 'Clinics',
     name: 'Medical clinics and healthcare',
     intakeFailure: 'Calls that arrive while the front desk is with a patient.',
   },
@@ -112,10 +112,16 @@ export interface NavItem {
   children?: readonly { label: string; href: string }[]
 }
 
+/**
+ * The nav exactly as every canvas board draws it: five items in sentence case,
+ * then the CTA. Decision Layer, Services and Reference Build are deliberately
+ * not here — the boards show a five-item bar, and those routes stay reachable
+ * (and indexed) through `FOOTER_NAV`. Removing them from the header is a
+ * navigation decision the design makes; it is not a decision to unpublish them.
+ */
 export const NAV_ITEMS: readonly NavItem[] = [
-  { label: 'Decision Layer', href: '/decision-layer' },
-  { label: 'How It Works', href: '/how-it-works' },
-  { label: 'Services', href: '/services' },
+  { label: 'Why us', href: '/why-us' },
+  { label: 'How it works', href: '/how-it-works' },
   {
     label: 'Industries',
     href: '/industries',
@@ -124,8 +130,8 @@ export const NAV_ITEMS: readonly NavItem[] = [
       href: `/industries/${industry.slug}`,
     })),
   },
-  { label: 'Why Us', href: '/why-us' },
   { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
 ] as const
 
 export const FOOTER_NAV: readonly { label: string; href: string }[] = [

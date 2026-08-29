@@ -9,6 +9,7 @@ import { COMPANY, CTA, NAV_ITEMS } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import { IndustriesMenu } from './IndustriesMenu'
 import { MobileDrawer } from './MobileDrawer'
+import { WORDMARK_HEIGHTS, Wordmark } from './Wordmark'
 
 const linkBase =
   'focus-ring rounded-lg px-2.5 py-2 text-sm font-medium'
@@ -79,12 +80,15 @@ export function Nav() {
           <Link
             href="/"
             aria-label={`${COMPANY.name} — home`}
-            className="focus-ring flex flex-none items-center gap-2.5 rounded-lg py-2"
+            className="focus-ring flex flex-none items-center rounded-lg py-2"
           >
-            <span aria-hidden="true" className="h-2.5 w-2.5 flex-none rounded-full bg-sky" />
-            <span className="font-heading text-base font-bold tracking-tight text-paper">
-              {COMPANY.name}
-            </span>
+            {/*
+              Board 1e: 30px in the desktop nav, 26px on mobile. Both render so
+              the swap is a CSS breakpoint rather than a client-side measure —
+              the bar must not reflow between hydration and first paint.
+            */}
+            <Wordmark priority height={WORDMARK_HEIGHTS.mobile} className="lg:hidden" />
+            <Wordmark priority height={WORDMARK_HEIGHTS.desktop} className="hidden lg:block" />
           </Link>
 
           <nav aria-label="Main" className="hidden lg:block">

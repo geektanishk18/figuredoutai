@@ -27,7 +27,7 @@ interface IndustryDemoProps {
 }
 
 export function IndustryDemo({
-  defaultIndustry = 'medical-clinics',
+  defaultIndustry = 'clinics',
   showSwitcher = true,
   className,
 }: IndustryDemoProps) {

@@ -15,7 +15,9 @@ export default function WhyUsPage() {
   return (
     <PageShell
       eyebrow="Why us"
-      title="Most AI vendors move your information faster. We decide what happens to it."
+      /* Board 1b. */
+      title="Qualification logic is built, not downloaded."
+      lede="Qualification logic is the set of judgements that decide whether a conversation is worth a business owner’s time — and it is different for every business on earth."
       ctas={[
         { label: 'Get your intake audit', href: '/contact' },
         { label: 'See the reference build', href: '/reference-build' },

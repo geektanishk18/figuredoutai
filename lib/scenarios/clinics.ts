@@ -1,8 +1,8 @@
 import { assertScenarioDepth, type Scenario } from './types'
 
-export const medicalClinics: Scenario = assertScenarioDepth({
+export const clinics: Scenario = assertScenarioDepth({
   sector: 'Medical clinics',
-  slug: 'medical-clinics',
+  slug: 'clinics',
   summary:
     'Symptom urgency decides everything here, and it has to be assessed without practising medicine. The layer sorts on described urgency, specialty fit and payment route, and hands anything clinical to a clinician.',
   intakePath: [

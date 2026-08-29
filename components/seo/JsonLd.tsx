@@ -32,7 +32,7 @@ export function OrganizationSchema() {
         name: COMPANY.name,
         legalName: COMPANY.legalName,
         url: SITE_URL,
-        logo: `${SITE_URL}/favicon/android-chrome-512x512.png`,
+        logo: `${SITE_URL}/brand/icon-512.png`,
         description: COMPANY.positioning,
         email: CONTACT.email,
         telephone: CONTACT.phone,

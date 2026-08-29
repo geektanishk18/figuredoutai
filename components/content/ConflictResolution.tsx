@@ -17,7 +17,7 @@ import type { IndustrySlug } from '@/lib/constants'
  * kind of claim the provenance chip exists to prevent.
  */
 const RULES: Partial<Record<IndustrySlug, readonly { n: string; text: string }[]>> = {
-  'medical-clinics': conflictRules,
+  'clinics': conflictRules,
   recruitment: recConflictRules,
 }
 

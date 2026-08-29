@@ -35,3 +35,9 @@ tsconfig.tsbuildinfo
 
 # design canvas archive — reference only, never imported or shipped
 /design
+
+# build and verification artefacts — regenerated on demand, never committed
+*.log
+snap_*.html
+snapshot_*.html
+about.html

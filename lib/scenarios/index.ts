@@ -1,6 +1,6 @@
 import type { IndustrySlug } from '@/lib/constants'
 import type { Scenario } from './types'
-import { medicalClinics } from './medical-clinics'
+import { clinics } from './clinics'
 import { realEstate } from './real-estate'
 import { restaurants } from './restaurants'
 import { travel } from './travel'
@@ -13,7 +13,7 @@ import { hvac } from './hvac'
  * page that quietly renders without its proof block.
  */
 export const SCENARIOS: Record<IndustrySlug, Scenario> = {
-  'medical-clinics': medicalClinics,
+  'clinics': clinics,
   'real-estate': realEstate,
   restaurants,
   travel,

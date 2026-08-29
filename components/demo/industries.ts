@@ -19,8 +19,8 @@ import type { IndustryDemo } from './types'
 const CONVERSION_FACTOR = 0.3
 
 export const INDUSTRY_DEMOS: Record<IndustrySlug, IndustryDemo> = {
-  'medical-clinics': {
-    slug: 'medical-clinics',
+  'clinics': {
+    slug: 'clinics',
     label: 'Clinics',
     contact: { name: 'Ramesh Sharma', initials: 'RS', status: 'new enquiry' },
     sliders: {

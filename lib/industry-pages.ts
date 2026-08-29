@@ -15,12 +15,14 @@ export interface IndustryPageMeta {
 }
 
 export const INDUSTRY_PAGES: Record<IndustrySlug, IndustryPageMeta> = {
-  'medical-clinics': {
-    title: 'Decision Layer for Medical Clinics',
+  clinics: {
+    title: 'Decision Layer for Clinics',
     description:
       'Clinic calls arrive while the front desk is with a patient. A decision layer answers, triages by urgency and books the right clinician.',
-    heading: 'The patients who called while your front desk was busy.',
-    lede: 'Clinics do not lose enquiries through indifference. They lose them because the person who answers the phone is also checking in a patient, taking a payment and finding a file.',
+    /* Board 1c. The sky emphasis falls on "picked up" — one word per headline. */
+    heading: 'The patient chose you. Then nobody picked up.',
+    lede:
+      'A clinic’s enquiries arrive on WhatsApp and on the phone, all day, from people who have already decided where they want to go. The system answers every one of them at the same standard, and the front desk only sees what still needs a person.',
     sentenceNoun: 'clinic',
   },
   'real-estate': {
@@ -51,8 +53,10 @@ export const INDUSTRY_PAGES: Record<IndustrySlug, IndustryPageMeta> = {
     title: 'Decision Layer for Recruitment',
     description:
       'One opening draws hundreds of applications and the best candidates leave first. A decision layer screens every one against the same criteria.',
-    heading: 'Four hundred applications, and the good ones leave first.',
-    lede: 'Recruitment has the opposite of a demand problem. The constraint sits entirely on the screening side, and it decides who you actually get to hire.',
+    /* Board 2b. The sky emphasis falls on "Thursday". */
+    heading: 'They applied on Monday. Someone read it on Thursday.',
+    lede:
+      'Applications arrive in volume, from people who have already chosen to work for you. The layer screens every one against the role’s criteria at the same standard, and a recruiter only opens what still needs judgement.',
     sentenceNoun: 'hiring',
   },
   hvac: {
