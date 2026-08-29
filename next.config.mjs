@@ -21,6 +21,20 @@ const nextConfig = {
     // Type errors must fail the build.
     ignoreBuildErrors: false,
   },
+  /**
+   * The clinics page shipped at /industries/medical-clinics before the canvas
+   * settled on /industries/clinics. The old path was live and is linked from
+   * outside the site, so it redirects permanently rather than 404ing.
+   */
+  async redirects() {
+    return [
+      {
+        source: '/industries/medical-clinics',
+        destination: '/industries/clinics',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 const withMDX = createMDX({})
