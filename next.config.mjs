@@ -1,9 +1,25 @@
 import createMDX from '@next/mdx'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const here = path.dirname(fileURLToPath(import.meta.url))
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  /**
+   * Pin the file-tracing root to this directory.
+   *
+   * Next walks up looking for a lockfile to decide which files to trace into
+   * the server bundle. This project is developed in a git worktree nested
+   * under the main checkout, so it finds two and picks the parent — which
+   * means the traced root sits above the app and the bundle can omit files the
+   * app actually imports. That surfaces as a runtime "module not found" on a
+   * deployed function rather than a build failure, so it is worth pinning
+   * even though the warning looks cosmetic.
+   */
+  outputFileTracingRoot: here,
   images: {
     formats: ['image/webp'],
     // Icons are inline SVG (lucide-react), never next/image, so the tiny

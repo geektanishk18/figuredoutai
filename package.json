@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "eslint . --max-warnings 0 && npm run check:copy && npm run check:scope && npm run check:glass",
     "typecheck": "tsc --noEmit",
-    "build:orb": "node scripts/build-orb.mjs",
     "check:copy": "node scripts/guards/check-copy.mjs",
     "check:scope": "node scripts/guards/check-scope.mjs",
     "check:glass": "node scripts/guards/check-blur.mjs && node scripts/guards/check-containing-block.mjs"
@@ -30,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
+    "@netlify/plugin-nextjs": "^5.15.13",
     "@types/mdx": "^2.0.13",
     "@types/node": "22.10.2",
     "@types/react": "19.2.7",
