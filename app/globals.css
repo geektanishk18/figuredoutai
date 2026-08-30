@@ -209,71 +209,29 @@
 
 
   /*
-   * Liquid heading accent — ported from figuredoutai.com.
+   * The one-word heading accent. Board 1e reserves sky for exactly one word
+   * per headline, and every board sets it as a flat `color:#90C2E7`.
    *
-   * The gradient is clipped to the glyphs and its background-position drifts
-   * once on entry; a soft glint sweeps across underneath. Only
-   * `background-position`, `opacity` and `transform` animate, and the single
-   * blur is 12px — well inside the 24px ceiling, so this stays off the mobile
-   * crash path that the large background blurs on the live site sit on.
-   *
-   * Every gradient stop clears AA against ink; the darkest measures 5.23:1.
+   * Sky measures 10.49:1 on ink, so the accent is the most legible text on the
+   * page rather than the least — which is the opposite of what the clipped
+   * gradient this replaced achieved.
    */
   .liquid {
-    position: relative;
-    display: inline-block;
-    color: transparent;
     /*
-     * Board 1e's rule is "exactly one word in sky", so the sweep travels
-     * paper → peak → sky and back rather than through the electric blues this
-     * previously used, none of which were brand tokens.
-     */
-    background: linear-gradient(
-        120deg,
-        var(--brand-paper) 0%,
-        var(--brand-peak) 22%,
-        var(--brand-sky) 50%,
-        var(--brand-peak) 78%,
-        var(--brand-paper) 100%
-      )
-      0 0 / 220% 220%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    text-shadow: 0 2px 12px rgba(4, 7, 12, 0.24);
-    /*
-     * No animation here, deliberately.
+     * The accent word, in sky.
      *
-     * This used to declare `animation: liquid-shift`, whose keyframes live in
-     * the Tailwind config and are only emitted when an `animate-*` utility
-     * uses them. Nothing did, so the rule named a keyframe that was never in
-     * the stylesheet and the drift has never actually run — the gradient has
-     * always been static. Removing the dead declaration makes the CSS describe
-     * what the page really does.
+     * This was a paper -> peak -> sky -> peak -> paper gradient clipped to the
+     * glyphs. Clipped text takes its colour from the middle of the run, so the
+     * word rendered as near-white and the "exactly one word in sky" rule that
+     * board 1e states — and that every board draws literally as
+     * `color:#90C2E7` — never actually reached the page.
      *
-     * Restoring the drift would mean animating `background-position`, which the
-     * motion rules for this build do not allow.
+     * A flat colour is what the design specifies, and it is also the only
+     * version that survives `background-clip: text` being unsupported.
      */
+    color: var(--brand-sky);
   }
 
-  .liquid::before {
-    content: '';
-    position: absolute;
-    inset: 12% -3%;
-    pointer-events: none;
-    background: linear-gradient(
-      100deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.22) 46%,
-      transparent 60%
-    );
-    filter: blur(12px);
-    opacity: 0.55;
-  }
-
-  /*
-   * Under reduced motion the gradient stays — it is brand, not movement — but
-   * it settles at its mid position and nothing drifts or sweeps.
-   */
   /*
    * Glass motion — specular, not structural.
    *

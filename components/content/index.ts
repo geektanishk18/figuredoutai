@@ -12,5 +12,5 @@ export {
   type PublishableTier,
 } from './Provenance'
 export { ReferenceLog } from './ReferenceLog'
-export { VerificationCards } from './VerificationCards'
 export { ScenarioBlock } from './ScenarioBlock'
+export { LabelledSection } from './LabelledSection'
