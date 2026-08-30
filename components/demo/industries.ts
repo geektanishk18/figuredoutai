@@ -61,6 +61,11 @@ export const INDUSTRY_DEMOS: Record<IndustrySlug, IndustryDemo> = {
       today: { badge: '0', text: 'This patient went to another clinic. Nobody at yours ever knew.', status: 'gone' },
       layer: { badge: '4 sec', text: 'First reply. The front desk arrived to find the appointment already booked.', status: 'appointment confirmed' },
     },
+    // Board 1a, verbatim — the one pair with a board source.
+    demoHeader: {
+      eyebrow: 'Patient Response Check',
+      question: { before: 'How many patients ', accent: 'never reach', after: ' your clinic?' },
+    },
   },
   'real-estate': {
     slug: 'real-estate',
@@ -103,6 +108,10 @@ export const INDUSTRY_DEMOS: Record<IndustrySlug, IndustryDemo> = {
     verdicts: {
       today: { badge: '0', text: 'This buyer booked a site visit with another agent the same evening.', status: 'gone' },
       layer: { badge: '4 sec', text: 'First reply. The closing agent picked up a visit that was already qualified.', status: 'site visit confirmed' },
+    },
+    demoHeader: {
+      eyebrow: 'Buyer Response Check',
+      question: { before: 'How many buyers ', accent: 'never reach', after: ' your team?' },
     },
   },
   restaurants: {
@@ -147,6 +156,10 @@ export const INDUSTRY_DEMOS: Record<IndustrySlug, IndustryDemo> = {
       today: { badge: '0', text: 'The table went to the restaurant that replied. Six covers, gone quietly.', status: 'gone' },
       layer: { badge: '4 sec', text: 'First reply. The floor manager saw a confirmed table with the dietary note attached.', status: 'table confirmed' },
     },
+    demoHeader: {
+      eyebrow: 'Booking Response Check',
+      question: { before: 'How many orders and bookings ', accent: 'go unanswered', after: '?' },
+    },
   },
   travel: {
     slug: 'travel',
@@ -189,6 +202,10 @@ export const INDUSTRY_DEMOS: Record<IndustrySlug, IndustryDemo> = {
     verdicts: {
       today: { badge: '0', text: 'These travellers booked through an aggregator instead. No enquiry ever closed.', status: 'gone' },
       layer: { badge: '4 sec', text: 'First reply. The destination desk received dates, budget band and party size already captured.', status: 'itinerary sent' },
+    },
+    demoHeader: {
+      eyebrow: 'Enquiry Response Check',
+      question: { before: 'How many enquiries ', accent: 'never become', after: ' a booking?' },
     },
   },
   recruitment: {
@@ -236,6 +253,10 @@ export const INDUSTRY_DEMOS: Record<IndustrySlug, IndustryDemo> = {
       today: { badge: '0', text: 'Your best applicant that week was screened by a competitor first.', status: 'gone' },
       layer: { badge: '4 sec', text: 'First reply. The recruiter opened an inbox that had already scored and scheduled this applicant.', status: 'screening scheduled' },
     },
+    demoHeader: {
+      eyebrow: 'Applicant Response Check',
+      question: { before: 'How many applicants ', accent: 'never reach', after: ' a recruiter?' },
+    },
   },
   hvac: {
     slug: 'hvac',
@@ -278,6 +299,10 @@ export const INDUSTRY_DEMOS: Record<IndustrySlug, IndustryDemo> = {
     verdicts: {
       today: { badge: '0', text: 'Another contractor sent a technician that afternoon. This job was never quoted.', status: 'gone' },
       layer: { badge: '4 sec', text: 'First reply. Dispatch opened a job with the warranty status already resolved.', status: 'technician dispatched' },
+    },
+    demoHeader: {
+      eyebrow: 'Service Response Check',
+      question: { before: 'How many service calls ', accent: 'go unanswered', after: '?' },
     },
   },
 }

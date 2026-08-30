@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { ProvenanceChip } from '@/components/content'
+import { Liquid, SectionHeading } from '@/components/ui'
 import type { IndustrySlug } from '@/lib/constants'
 import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
 import { cn } from '@/lib/utils'
@@ -23,12 +24,23 @@ interface IndustryDemoProps {
   defaultIndustry?: IndustrySlug
   /** Hidden on industry pages, where the industry is already the subject. */
   showSwitcher?: boolean
+  /**
+   * Renders each vertical's `demoHeader` (eyebrow + question) above the
+   * switcher, tracking whichever industry is currently selected.
+   *
+   * Homepage-only. Industry pages already open this section with their own
+   * board-sourced heading ("Put your own {noun} numbers in.", fixed to the
+   * page's industry) and keep it — this prop stays false there so nothing
+   * changes on those routes.
+   */
+  showHeading?: boolean
   className?: string
 }
 
 export function IndustryDemo({
   defaultIndustry = 'clinics',
   showSwitcher = true,
+  showHeading = false,
   className,
 }: IndustryDemoProps) {
   const [slug, setSlug] = useState<IndustrySlug>(defaultIndustry)
@@ -38,6 +50,7 @@ export function IndustryDemo({
   const reducedMotion = useReducedMotion()
 
   const switcherRef = useRef<HTMLDivElement>(null)
+  const questionHeadingId = useId()
   const calculatorHeadingId = useId()
   const conversationHeadingId = useId()
   const switcherLabelId = useId()
@@ -57,6 +70,37 @@ export function IndustryDemo({
 
   return (
     <div className={cn('mx-auto w-full max-w-[30rem]', className)}>
+      {showHeading ? (
+        // `min-h` is sized off the longest of the six questions at 375px and
+        // desktop widths, so switching from the shortest string to the
+        // longest — "How many service calls go unanswered?" to "How many
+        // applicants never reach a recruiter?" — reflows the two words that
+        // wrap onto a new line rather than shifting the switcher and panel
+        // beneath it.
+        <SectionHeading
+          id={questionHeadingId}
+          align="center"
+          eyebrow={industry.demoHeader.eyebrow}
+          title={
+            // The outer span reserves height and centres vertically; its only
+            // child is a single inline run so ordinary text wrapping still
+            // applies to it. A flex container with three separate children —
+            // the leading text, the Liquid span, and the trailing text — lays
+            // each one out as its own flex item instead of one wrapped
+            // paragraph, which breaks into a false multi-column grid.
+            <span className="flex min-h-[4.25rem] items-center justify-center sm:min-h-[3.75rem] lg:min-h-[4.5rem]">
+              <span>
+                {industry.demoHeader.question.before}
+                <Liquid>{industry.demoHeader.question.accent}</Liquid>
+                {industry.demoHeader.question.after}
+              </span>
+            </span>
+          }
+          description="Enter your numbers. The arithmetic builds itself."
+          className="mx-auto mb-10 text-center"
+        />
+      ) : null}
+
       {showSwitcher ? (
         <div className="mb-4">
           <p id={switcherLabelId} className="sr-only">

@@ -1,37 +1,26 @@
 import { IndustryDemo } from '@/components/demo'
-import { Container, Liquid, Reveal, SectionHeading } from '@/components/ui'
+import { Container, Reveal } from '@/components/ui'
 
 /**
- * The demo as the homepage's product shot — board 1a.
+ * The demo as the homepage's product shot — board 1a, generalised.
  *
- * No vertical switcher here. Board 1a imports the panel bare
- * (`<dc-import name="QualifyDemo">`) while the industry boards pass
- * `switcher="true"`, and the heading is why: the homepage asks a clinic-specific
- * question, so offering six verticals under it would contradict the copy. The
- * switcher belongs on the industry pages, where the reader has already picked a
- * subject and comparing is useful.
+ * Board 1a hardcodes the panel to clinics with no switcher — it was drawn
+ * before the homepage needed one. That was a defensible reading of the board,
+ * but wrong for a homepage every non-clinic visitor lands on: nothing on the
+ * page let a recruiter or a restaurant owner see their own numbers.
+ *
+ * `showHeading` moves the eyebrow and question into `IndustryDemo` itself, so
+ * they track whichever industry is currently selected — the panel owns the
+ * `slug` state already, and lifting it back up here would mean either
+ * duplicating that state or forking the timer/cross-contamination guards in
+ * `useScriptPlayer` to keep two owners in sync. One state owner, one hook.
  */
 export function DemoSection() {
   return (
-    <Container as="section" id="demo" aria-labelledby="demo-heading" className="py-20 sm:py-28">
+    <Container as="section" id="demo" className="py-20 sm:py-28">
       <Reveal>
-        <SectionHeading
-          id="demo-heading"
-          align="center"
-          eyebrow="Patient Response Check"
-          title={
-            <>
-              How many patients <Liquid>never reach</Liquid> your clinic?
-            </>
-          }
-          description="Enter your numbers. The arithmetic builds itself."
-          className="mx-auto text-center"
-        />
+        <IndustryDemo defaultIndustry="clinics" showSwitcher showHeading />
       </Reveal>
-
-      <div className="mt-12">
-        <IndustryDemo defaultIndustry="clinics" showSwitcher={false} />
-      </div>
     </Container>
   )
 }

@@ -61,4 +61,19 @@ export interface IndustryDemo {
   noun: string
   scripts: { today: readonly Step[]; layer: readonly Step[] }
   verdicts: { today: Verdict; layer: Verdict }
+  /**
+   * The homepage's demo header, board 1a's "Patient Response Check" / "How many
+   * patients never reach your clinic?" pair, generalised across verticals.
+   *
+   * Board 1a is clinics-only — it was designed before the homepage had a
+   * switcher, so `clinics` is the one pair with a board source; the other five
+   * are new copy written to the same grammatical shape when the switcher was
+   * added to the homepage. `question` is split at the phrase board 1e's "one
+   * word (or phrase) per headline in sky" rule accents, so the Liquid treatment
+   * survives the string becoming per-vertical instead of hardcoded JSX.
+   */
+  demoHeader: {
+    eyebrow: string
+    question: { before: string; accent: string; after: string }
+  }
 }
