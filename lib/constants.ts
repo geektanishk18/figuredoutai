@@ -5,7 +5,26 @@
  * from the environment inside the Route Handler, never from this module.
  */
 
-export const SITE_URL = 'https://figuredoutai.com'
+/**
+ * The canonical origin, used for `metadataBase`, the sitemap, robots.txt and
+ * every JSON-LD `@id`.
+ *
+ * `.env.example` has always documented `NEXT_PUBLIC_SITE_URL`, but nothing read
+ * it — the origin was hard-coded, so a Netlify preview or branch deploy emitted
+ * canonicals, a sitemap and structured data all pointing at the production
+ * domain. That makes a preview claim to *be* production to any crawler that
+ * reaches it.
+ *
+ * The production value stays the default, so an unset variable behaves exactly
+ * as before. Netlify sets `URL` per deploy context; map it to this variable in
+ * the UI to make previews describe themselves honestly.
+ *
+ * Must be `NEXT_PUBLIC_` — `JsonLd` and `metadataBase` are evaluated where the
+ * value has to be inlined at build time.
+ */
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://figuredoutai.com'
+).replace(/\/$/, '')
 
 export const COMPANY = {
   name: 'FiguredoutAI',
