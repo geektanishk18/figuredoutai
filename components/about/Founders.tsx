@@ -15,10 +15,21 @@ const RULE = 'mt-5 border-t border-sky/[0.08] pt-5'
  *
  * The quote carries the founder's own words, so it is a `<blockquote>` with a
  * `<cite>`, not a styled paragraph.
+ *
+ * `grid-cols-1` on the list is explicit rather than implied. Without it there
+ * is no column template below `lg`, so the cards land in an implicit `auto`
+ * track — and an `auto` track's growth limit is its max-content size. The role
+ * line ("CO-FOUNDER & CHIEF EXECUTIVE OFFICER", uppercase with 0.1em tracking)
+ * does not wrap at max-content, which sized the track to 332px inside a 280px
+ * container and put the whole page into horizontal scroll at 320px. Setting
+ * `min-width: 0` on the card cannot fix that — auto tracks size to max-content
+ * regardless. `grid-cols-1` is `repeat(1, minmax(0, 1fr))`: definite and
+ * shrinkable, so the track follows the container. Nothing changes at any other
+ * width.
  */
 export function Founders() {
   return (
-    <ul className="grid gap-5 lg:grid-cols-2">
+    <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
       {founders.map((founder) => (
         <li
           key={founder.name}
