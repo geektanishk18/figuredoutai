@@ -90,6 +90,15 @@ export function LeadForm() {
             from_name: values.name,
             email: values.email,
             replyto: values.email,
+            // Sent even though the branch above already returns early on a
+            // filled value — this is the case that branch cannot catch: a
+            // bot that skips this page's JS entirely and posts straight to
+            // Web3Forms' public endpoint (the access key ships in the
+            // client bundle by design, so nothing stops that). `botcheck`
+            // is Web3Forms' own honeypot convention — a non-empty value
+            // here makes Web3Forms silently discard the submission
+            // server-side, the one layer client JS can't provide.
+            botcheck: values.website,
             Name: values.name,
             'Work email': values.email,
             Company: values.company,

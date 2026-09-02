@@ -68,6 +68,13 @@ If you change routes or redirects, `public/.htaccess` is the file to edit —
 4. **Verify `/industries/medical-clinics` redirects** to `/industries/clinics/`
    after upload — the `.htaccess` rule needs `mod_rewrite` enabled, which is
    standard on Hostinger shared hosting but worth a one-time check.
+5. **Turn on Web3Forms' spam filtering** in the dashboard (Form settings →
+   Spam Protection). The contact form also ships a client-side honeypot
+   (`components/contact/LeadForm.tsx`) sent through as Web3Forms' own
+   `botcheck` field, but that only stops a bot that runs this page's JS —
+   the dashboard filter is the layer that covers a request sent straight to
+   Web3Forms' API, since the access key is necessarily public in the client
+   bundle.
 
 ## Local preview of the exact static build
 
