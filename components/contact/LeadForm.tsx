@@ -10,6 +10,18 @@ import { cn } from '@/lib/utils'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
+/**
+ * Set only on the static (Hostinger) build. Netlify runs the real Next server,
+ * where `/api/lead` does the sending via Resend — that path stays untouched
+ * and this stays unset there.
+ *
+ * `NEXT_PUBLIC_` because a static export has no server to read it from at
+ * request time; it is inlined into the client bundle at build time instead.
+ * Web3Forms' access key is designed for exactly this — it identifies where to
+ * deliver a submission, not a secret that gates who can send one.
+ */
+const WEB3FORMS_ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
+
 const fieldBase =
   'focus-ring w-full rounded-xl border bg-ink px-3.5 py-3 text-[15px] text-paper placeholder:text-muted/70'
 
@@ -62,18 +74,60 @@ export function LeadForm() {
       inFlight.current = true
       setServerError(null)
       setStatus('submitting')
+
+      // Honeypot. `/api/lead` accepts and silently discards a filled value
+      // server-side so a bot never learns it was caught. The static build has
+      // no server to do that, so the same silent discard happens here instead
+      // — this branch is taken by neither the sender nor Web3Forms.
+      if (values.website) {
+        setStatus('success')
+        inFlight.current = false
+        return
+      }
+
       try {
-        const response = await fetch('/api/lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(values),
-        })
+        const response = WEB3FORMS_ACCESS_KEY
+          ? await fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify({
+                access_key: WEB3FORMS_ACCESS_KEY,
+                subject: `Intake audit request — ${values.company}`,
+                from_name: values.name,
+                email: values.email,
+                replyto: values.email,
+                Name: values.name,
+                'Work email': values.email,
+                Company: values.company,
+                Phone: values.phone || '—',
+                Industry: values.industry,
+                'Monthly enquiry volume': values.volume,
+                'What currently happens to an enquiry': values.intake || '—',
+              }),
+            })
+          : await fetch('/api/lead', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(values),
+            })
 
         if (!response.ok) {
-          const body = (await response.json().catch(() => null)) as { error?: string } | null
-          setServerError(body?.error ?? null)
+          const body = (await response.json().catch(() => null)) as {
+            error?: string
+            message?: string
+          } | null
+          setServerError(body?.error ?? body?.message ?? null)
           setStatus('error')
           return
+        }
+
+        if (WEB3FORMS_ACCESS_KEY) {
+          const body = (await response.json().catch(() => null)) as { success?: boolean; message?: string } | null
+          if (body?.success === false) {
+            setServerError(body.message ?? null)
+            setStatus('error')
+            return
+          }
         }
 
         setStatus('success')
