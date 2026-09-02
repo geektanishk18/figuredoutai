@@ -1,0 +1,21 @@
+# Hostinger (Apache) config for the static export in `out/`.
+# Copied into the build output automatically — everything in public/ is.
+
+# The clinics page shipped at /industries/medical-clinics before the canvas
+# settled on /industries/clinics. The old path was live and is linked from
+# outside the site, so it redirects permanently rather than 404ing. This
+# replaces the `redirects()` entry in next.config.mjs, which has no effect
+# once the build is a static export — there is no Next server left to run it.
+Redirect 301 /industries/medical-clinics /industries/clinics/
+
+RewriteEngine On
+
+# trailingSlash: true means every route builds to <route>/index.html. A
+# request for /about (no trailing slash) needs to resolve to the same file
+# without a visible redirect loop or a 404.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.*[^/])$ /$1/ [L,R=301]
+
+ErrorDocument 404 /404.html
