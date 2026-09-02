@@ -2,18 +2,39 @@ import type { Metadata } from 'next'
 import { Beliefs, EntityBlock, FounderQuoteBand, Founders, NumberedRows } from '@/components/about'
 import { LabelledSection } from '@/components/content/LabelledSection'
 import { PageBackdrop } from '@/components/layout/PageBackdrop'
+import { PersonSchema, TANISHK_ID, YASHVARDHAN_ID } from '@/components/seo/JsonLd'
 import { Container, Eyebrow, Liquid } from '@/components/ui'
 import { existParas } from '@/lib/content/exist-paras'
 import { workRows } from '@/lib/content/work-rows'
 
+const TITLE =
+  'About FiguredoutAI | Tanishk Singhal & Yashvardhan Awasthi — Growth Infrastructure for Indian Businesses'
+const DESCRIPTION =
+  'FiguredoutAI LLP builds growth infrastructure for Indian businesses — systems that qualify enquiries and scale revenue without scaling headcount. Founded by Tanishk Singhal (CEO) and Yashvardhan Awasthi (CTO), based in Noida.'
+
 export const metadata: Metadata = {
-  // The content file's meta title already names the brand; `absolute` stops the
-  // layout template appending it again.
-  title: { absolute: 'About FiguredoutAI — Building the Decision Layer for Indian Businesses' },
-  description:
-    'FiguredoutAI LLP builds conversational qualification systems for businesses with real enquiry volume. Registered in Noida, Uttar Pradesh. LLPIN ACZ-0822.',
+  // `absolute` stops the layout's `%s | FiguredoutAI` template appending to a
+  // title that already names the brand.
+  title: { absolute: TITLE },
+  description: DESCRIPTION,
   alternates: { canonical: '/about' },
-  openGraph: { type: 'website', url: '/about' },
+  // `openGraph` on a route replaces the parent's object wholesale rather than
+  // merging into it (see app/opengraph-image.tsx's own note on this same
+  // trap) — title/description/siteName/locale have to be repeated here or
+  // a shared link shows the homepage's copy instead of this page's.
+  openGraph: {
+    type: 'website',
+    url: '/about',
+    siteName: 'FiguredoutAI',
+    locale: 'en_IN',
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 }
 
 /**
@@ -30,6 +51,17 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="relative isolate">
+      <PersonSchema
+        id={TANISHK_ID}
+        name="Tanishk Singhal"
+        jobTitle="Co-Founder & Chief Executive Officer"
+        sameAs={['https://x.com/tanishk_ai']}
+      />
+      <PersonSchema
+        id={YASHVARDHAN_ID}
+        name="Yashvardhan Awasthi"
+        jobTitle="Co-Founder & Chief Technology Officer"
+      />
       <PageBackdrop />
 
       <Container className="pb-24 pt-16 sm:pt-20">

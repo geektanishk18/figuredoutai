@@ -11,6 +11,8 @@ import { schemaTypeFor, type PublishableTier } from '@/components/content/Proven
 
 export const ORGANIZATION_ID = `${SITE_URL}/#organization`
 export const WEBSITE_ID = `${SITE_URL}/#website`
+export const TANISHK_ID = `${SITE_URL}/about#tanishk-singhal`
+export const YASHVARDHAN_ID = `${SITE_URL}/about#yashvardhan-awasthi`
 
 function JsonLdScript({ schema }: { schema: Record<string, unknown> }) {
   return (
@@ -48,24 +50,55 @@ export function OrganizationSchema() {
           name: 'LLPIN',
           value: COMPANY.llpin,
         },
-        founder: [
-          {
-            '@type': 'Person',
-            name: 'Tanishk Singhal',
-            jobTitle: 'Co-Founder & Chief Executive Officer',
-          },
-          {
-            '@type': 'Person',
-            name: 'Yashvardhan Awasthi',
-            jobTitle: 'Co-Founder & Chief Technology Officer',
-          },
-        ],
+        // Linked, not embedded: each founder is its own addressable Person
+        // (PersonSchema below), so a crawler that resolves this @id graph
+        // gets one consistent record of who runs the company, not two
+        // different descriptions of the same person in two places.
+        founder: [{ '@id': TANISHK_ID }, { '@id': YASHVARDHAN_ID }],
         areaServed: { '@type': 'Country', name: 'India' },
         knowsAbout: [
           'Conversational qualification',
           'Lead qualification logic',
           'Enquiry routing and escalation',
         ],
+      }}
+    />
+  )
+}
+
+/**
+ * One addressable record per founder, linked from `OrganizationSchema.founder`
+ * by `@id` rather than duplicated inline. This is what lets a crawler resolve
+ * "who is the CEO of FiguredoutAI" to a single, consistent answer instead of
+ * two disagreeing descriptions of the same person.
+ *
+ * Tanishk's LinkedIn is not yet in `sameAs` — {{LINKEDIN_URL}} needs a real
+ * value before it can be added. Shipping the placeholder string itself into
+ * live JSON-LD would be worse than omitting the property: an unresolvable
+ * URL in `sameAs` fails schema validation rather than just being incomplete.
+ */
+export function PersonSchema({
+  id,
+  name,
+  jobTitle,
+  sameAs,
+}: {
+  id: string
+  name: string
+  jobTitle: string
+  sameAs?: readonly string[]
+}) {
+  return (
+    <JsonLdScript
+      schema={{
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        '@id': id,
+        name,
+        jobTitle,
+        worksFor: { '@id': ORGANIZATION_ID },
+        url: `${SITE_URL}/about`,
+        ...(sameAs && sameAs.length > 0 ? { sameAs } : {}),
       }}
     />
   )
