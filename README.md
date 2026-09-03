@@ -6,12 +6,11 @@ Production marketing site for **FiguredoutAI LLP** · LLPIN ACZ-0822 · Noida, U
 
 | Concern   | Choice |
 |-----------|--------|
-| Framework | Next.js 14 App Router, TypeScript (static HTML per route) |
+| Framework | Next.js 15 App Router, TypeScript, `output: 'export'` (static HTML per route) |
 | Styling   | Tailwind CSS |
-| Animation | CSS transitions + `IntersectionObserver`; Framer Motion only in the homepage hero |
-| Forms     | react-hook-form + zod |
-| Email     | Resend, via a Route Handler |
-| Deploy    | Vercel |
+| Animation | CSS transitions + `IntersectionObserver` |
+| Forms     | react-hook-form + zod, submitting to Web3Forms |
+| Deploy    | Hostinger shared hosting — see `DEPLOYMENT.md` |
 | Database  | None |
 
 ## Getting started
@@ -29,9 +28,9 @@ Requires Node ≥ 18.18.
 | `npm run build`     | Production build — must be clean before any layer is signed off |
 | `npm run lint`      | ESLint, zero warnings tolerated |
 | `npm run typecheck` | `tsc --noEmit` |
-| `npm run build:orb` | Regenerates `assets/orb-glow.webp` from `public/branding/orb-transparent.png`. Only needed if the orb artwork changes — the output is committed. |
 
-Copy `.env.example` to `.env.local` before running the contact form locally.
+Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` before
+running the contact form locally.
 
 ## Layout
 

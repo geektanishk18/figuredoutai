@@ -9,6 +9,20 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   /**
+   * Hostinger shared hosting serves static files only — there is no Node
+   * process behind it. `output: 'export'` produces a plain `out/` directory
+   * of HTML/CSS/JS that Apache can serve directly. This is now the only
+   * deploy target, so there is no server-build variant to keep in sync with.
+   */
+  output: 'export',
+  /**
+   * Apache (Hostinger's server) resolves `/foo/` to `/foo/index.html`
+   * automatically but does not rewrite bare `/foo` to the same file, so a
+   * static export without this produces working links but broken direct
+   * hits and refreshes on any non-root route.
+   */
+  trailingSlash: true,
+  /**
    * Pin the file-tracing root to this directory.
    *
    * Next walks up looking for a lockfile to decide which files to trace into
@@ -21,6 +35,9 @@ const nextConfig = {
    */
   outputFileTracingRoot: here,
   images: {
+    // Static export has no server to run the default image optimiser
+    // against — every next/image usage must ship the original file as-is.
+    unoptimized: true,
     formats: ['image/webp'],
     // Icons are inline SVG (lucide-react), never next/image, so the tiny
     // 16–128px variants Next generates by default can never be selected.
@@ -37,20 +54,9 @@ const nextConfig = {
     // Type errors must fail the build.
     ignoreBuildErrors: false,
   },
-  /**
-   * The clinics page shipped at /industries/medical-clinics before the canvas
-   * settled on /industries/clinics. The old path was live and is linked from
-   * outside the site, so it redirects permanently rather than 404ing.
-   */
-  async redirects() {
-    return [
-      {
-        source: '/industries/medical-clinics',
-        destination: '/industries/clinics',
-        permanent: true,
-      },
-    ]
-  },
+  // `redirects()` has no effect on `output: 'export'` — there is no Next
+  // server left to run it. The /industries/medical-clinics redirect now
+  // lives in public/.htaccess, which Apache applies directly.
 }
 
 const withMDX = createMDX({})

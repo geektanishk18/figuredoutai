@@ -47,7 +47,27 @@ export function Wordmark({
       width={Math.round(height * ASPECT)}
       height={height}
       priority={priority}
-      className={cn('block w-auto', className)}
+      /*
+       * The height is set inline rather than by a utility class, and this is
+       * load-bearing. Tailwind's preflight sets `img { height: auto }`; paired
+       * with the `w-auto` this used to carry, that left BOTH dimensions `auto`,
+       * so the browser ignored the width/height attributes — they are only
+       * presentational hints, which any author stylesheet outranks — and fell
+       * back to the file's intrinsic 321x48.
+       *
+       * Under the image optimiser that was invisible: it served a pre-resized
+       * file whose intrinsic size was already close to the intended one. The
+       * static export sets `images.unoptimized`, which serves the raw PNG, so
+       * the nav wordmark rendered 321x48 instead of 201x30 — and at 375px that
+       * 321px logo overflowed the 64px header and pushed the mobile menu
+       * button out of reach, breaking navigation on phones entirely.
+       *
+       * An inline style outranks preflight, so the rendered height is now the
+       * one asked for regardless of what the served file's intrinsic size is.
+       * Width stays `auto` so it is derived from the real aspect ratio.
+       */
+      style={{ height: `${height}px`, width: 'auto' }}
+      className={cn('block', className)}
     />
   )
 }

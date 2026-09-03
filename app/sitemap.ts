@@ -1,6 +1,11 @@
 import type { MetadataRoute } from 'next'
 import { INDUSTRIES, RESERVED_ROUTES, SITE_URL } from '@/lib/constants'
 
+// Required for `output: 'export'` — a static export has no server to
+// generate this on request, so Next needs to know it can render it once,
+// at build time, like any other route.
+export const dynamic = 'force-static'
+
 /**
  * Generated, not static. `RESERVED_ROUTES` is filtered out explicitly rather
  * than relying on the route simply not existing — so the exclusion survives

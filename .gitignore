@@ -47,6 +47,3 @@ tsconfig.tsbuildinfo
 snap_*.html
 snapshot_*.html
 about.html
-
-# Netlify CLI local state and build output — machine-specific, never committed
-.netlify/
