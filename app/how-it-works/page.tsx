@@ -4,9 +4,9 @@ import { Faq, FaqSchema, type FaqItem } from '@/components/content/Faq'
 import { PageShell } from '@/components/content/PageShell'
 
 export const metadata: Metadata = {
-  title: 'How It Works — Phases, Ownership and Overrides',
+  title: 'How It Works — Four Phases, Your Rules',
   description:
-    'Four phases: intake audit, logic design, build and deploy, managed operation. Every phase milestone-gated. Your rules, documented, auditable and changeable.',
+    'Lead qualification, implemented in four phases: intake audit, logic design, build and deploy, managed operation. Your rules, documented and changeable.',
   alternates: { canonical: '/how-it-works' },
   openGraph: { type: 'website', url: '/how-it-works' },
 }

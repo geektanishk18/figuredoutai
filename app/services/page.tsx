@@ -3,7 +3,7 @@ import Content from '@/content/services.mdx'
 import { PageShell } from '@/components/content/PageShell'
 
 export const metadata: Metadata = {
-  title: 'Services — Conversational Qualification & Decision Systems',
+  title: 'Services — AI Automation & Decision Systems',
   description:
     'We design qualification logic, deploy the conversational decision layer that executes it, and report on every decision it makes. Built on your rules.',
   alternates: { canonical: '/services' },

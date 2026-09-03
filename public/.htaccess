@@ -10,6 +10,21 @@ Redirect 301 /industries/medical-clinics /industries/clinics/
 
 RewriteEngine On
 
+# One origin, one canonical form. Every page declares
+# https://figuredoutai.com/... as its canonical; without these two rules the
+# www and http variants can still serve a 200, which splits the same content
+# across up to four addressable origins and leaves a crawler to guess which
+# the canonical tag meant.
+#
+# Ordered host-then-scheme, and both use R=301 with L so each redirect
+# resolves in a single hop rather than chaining www→non-www→https.
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [L,R=301]
+
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
+
 # trailingSlash: true means every route builds to <route>/index.html. A
 # request for /about (no trailing slash) needs to resolve to the same file
 # without a visible redirect loop or a 404.

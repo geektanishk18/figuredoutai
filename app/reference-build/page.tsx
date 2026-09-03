@@ -6,7 +6,7 @@ import { ProofSchema } from '@/components/seo/JsonLd'
 import { SITE_URL } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Reference Build — A Decision Layer, End to End',
+  title: 'Reference Build — A Decision Layer We Own',
   description:
     'A conversational qualification system we designed and built, and whose IP we own: portal, WhatsApp qualification layer, admin panel and voice.',
   alternates: { canonical: '/reference-build' },
@@ -20,7 +20,7 @@ export default function ReferenceBuildPage() {
       tier="reference"
       headline="Reference implementation of the decision layer"
       description="A conversational qualification system we designed and built, and whose IP we own: portal, WhatsApp qualification layer, admin panel and voice."
-      url={`${SITE_URL}/reference-build`}
+      url={`${SITE_URL}/reference-build/`}
     />
     <PageShell
       eyebrow="Reference build"

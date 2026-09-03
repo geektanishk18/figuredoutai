@@ -1,7 +1,25 @@
 import { founders } from '@/lib/content/founders'
+import { SOCIAL } from '@/lib/constants'
 
 const META = 'font-sans text-[11px] font-medium uppercase tracking-[0.1em] text-muted'
 const RULE = 'mt-5 border-t border-sky/[0.08] pt-5'
+
+/**
+ * Profiles per founder, keyed by the name on the card.
+ *
+ * Rendered for the same reason the footer renders the company's: the Person
+ * schema on this page claims these profiles via `sameAs`, and a visible link
+ * is the version of that claim a crawler can follow. Only founders with
+ * public profiles appear — an absent entry renders nothing rather than a
+ * dead or invented link.
+ */
+const FOUNDER_PROFILES: Record<string, readonly { label: string; href: string }[]> = {
+  'Tanishk Singhal': [
+    { label: 'LinkedIn', href: SOCIAL.tanishk.linkedin },
+    { label: 'X', href: SOCIAL.tanishk.x },
+    { label: 'Instagram', href: SOCIAL.tanishk.instagram },
+  ],
+}
 
 /**
  * Board 1d's founder cards.
@@ -30,7 +48,10 @@ const RULE = 'mt-5 border-t border-sky/[0.08] pt-5'
 export function Founders() {
   return (
     <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
-      {founders.map((founder) => (
+      {founders.map((founder) => {
+        const profiles = FOUNDER_PROFILES[founder.name]
+
+        return (
         <li
           key={founder.name}
           className="rounded-panel border border-sky/[0.12] bg-panel p-founder"
@@ -66,8 +87,30 @@ export function Founders() {
             <p className="text-[15px] font-medium leading-[1.6] text-sky">{founder.vision}</p>
             <cite className="sr-only">{founder.name}</cite>
           </blockquote>
+
+          {profiles ? (
+            <div className={RULE}>
+              <p className={META}>Profiles</p>
+              <ul className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
+                {profiles.map((profile) => (
+                  <li key={profile.label}>
+                    <a
+                      href={profile.href}
+                      target="_blank"
+                      rel="noopener"
+                      aria-label={`${founder.name} on ${profile.label}`}
+                      className="focus-ring rounded text-[15px] text-sky underline underline-offset-4 hover:text-peak"
+                    >
+                      {profile.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </li>
-      ))}
+        )
+      })}
     </ul>
   )
 }

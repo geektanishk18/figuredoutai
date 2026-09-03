@@ -8,9 +8,11 @@ import { howRows } from '@/lib/content/how-rows'
 import { engagements, howLede, verifyNote, whyLede } from '@/lib/content/why-sections'
 
 export const metadata: Metadata = {
-  title: 'Why FiguredoutAI — Decision Logic, Not Chatbots',
+  // The brand name is appended by the layout's `%s | FiguredoutAI` template,
+  // so naming it here too rendered "Why FiguredoutAI — … | FiguredoutAI".
+  title: 'Why Us — AI Automation Agency in India',
   description:
-    'Qualification logic is the set of judgements that decide whether a conversation is worth a business owner’s time. We build it from your criteria, document it, and stay accountable for it.',
+    'Qualification logic decides whether a conversation is worth an owner’s time. We build it from your criteria, document it, and stay accountable for it.',
   alternates: { canonical: '/why-us' },
   openGraph: { type: 'website', url: '/why-us' },
 }

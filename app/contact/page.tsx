@@ -8,7 +8,7 @@ import { COMPANY, CONTACT } from '@/lib/constants'
 export const metadata: Metadata = {
   title: 'Get Your Intake Audit',
   description:
-    'Three working days, no cost. We map how enquiries reach your business and where they stop. You keep the map either way.',
+    'Request an intake audit. Three working days, no cost. We map how enquiries reach your business and where they stop. You keep the map either way.',
   alternates: { canonical: '/contact' },
   openGraph: { type: 'website', url: '/contact' },
 }

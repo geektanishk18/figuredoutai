@@ -1,0 +1,24 @@
+# FiguredoutAI
+
+> FiguredoutAI LLP builds growth infrastructure for businesses with high
+> enquiry volume — a conversational qualification layer that sorts, scores
+> and routes incoming enquiries so revenue stops depending on headcount.
+> Registered LLP (LLPIN ACZ-0822), Noida, Uttar Pradesh, India.
+> Founded by Tanishk Singhal (CEO) and Yashvardhan Awasthi (CTO).
+
+## Core
+- [Decision Layer](https://figuredoutai.com/decision-layer/): What a decision layer is and how it differs from a chatbot
+- [How It Works](https://figuredoutai.com/how-it-works/): The four-phase implementation process
+- [Services](https://figuredoutai.com/services/): Qualification logic design, the decision layer, operating visibility
+- [Why Us](https://figuredoutai.com/why-us/): How qualification logic is built rather than downloaded
+- [Reference Build](https://figuredoutai.com/reference-build/): A decision layer we designed, built and own
+- [About](https://figuredoutai.com/about/): Company, founders, and registered entity details
+- [Contact](https://figuredoutai.com/contact/): Intake audit request
+
+## Industries
+- [Clinics](https://figuredoutai.com/industries/clinics/)
+- [Real Estate](https://figuredoutai.com/industries/real-estate/)
+- [Restaurants](https://figuredoutai.com/industries/restaurants/)
+- [Travel](https://figuredoutai.com/industries/travel/)
+- [Recruitment](https://figuredoutai.com/industries/recruitment/)
+- [HVAC](https://figuredoutai.com/industries/hvac/)
