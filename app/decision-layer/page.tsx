@@ -3,9 +3,9 @@ import Content from '@/content/decision-layer.mdx'
 import { PageShell } from '@/components/content/PageShell'
 
 export const metadata: Metadata = {
-  title: 'The Decision Layer — Deciding, Not Just Answering',
+  title: 'AI Decision Layer — Deciding, Not Answering',
   description:
-    'A chatbot returns a scripted reply and leaves the decision to a human. A decision layer applies your rules, scores, routes and escalates with context attached.',
+    'A chatbot returns a scripted reply and leaves the decision to a human. An AI decision layer applies your rules, scores, routes and escalates with context.',
   alternates: { canonical: '/decision-layer' },
   openGraph: { type: 'website', url: '/decision-layer' },
 }

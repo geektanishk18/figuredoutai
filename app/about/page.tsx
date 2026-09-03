@@ -2,15 +2,23 @@ import type { Metadata } from 'next'
 import { Beliefs, EntityBlock, FounderQuoteBand, Founders, NumberedRows } from '@/components/about'
 import { LabelledSection } from '@/components/content/LabelledSection'
 import { PageBackdrop } from '@/components/layout/PageBackdrop'
-import { PersonSchema, TANISHK_ID, YASHVARDHAN_ID } from '@/components/seo/JsonLd'
+import { BreadcrumbSchema, PersonSchema, TANISHK_ID, YASHVARDHAN_ID } from '@/components/seo/JsonLd'
+import { SOCIAL } from '@/lib/constants'
 import { Container, Eyebrow, Liquid } from '@/components/ui'
 import { existParas } from '@/lib/content/exist-paras'
 import { workRows } from '@/lib/content/work-rows'
 
-const TITLE =
-  'About FiguredoutAI | Tanishk Singhal & Yashvardhan Awasthi — Growth Infrastructure for Indian Businesses'
+/*
+  Both founder names stay in the title — this page's job is to answer "who
+  founded FiguredoutAI", and the title is the strongest signal it has. The
+  trailing "Growth Infrastructure for Indian Businesses" clause came out
+  instead: at 104 characters the whole title was truncated in results, and
+  that clause is the half already carried by the description below. 58
+  characters keeps every entity term and loses nothing to the cut.
+*/
+const TITLE = 'About FiguredoutAI — Tanishk Singhal & Yashvardhan Awasthi'
 const DESCRIPTION =
-  'FiguredoutAI LLP builds growth infrastructure for Indian businesses — systems that qualify enquiries and scale revenue without scaling headcount. Founded by Tanishk Singhal (CEO) and Yashvardhan Awasthi (CTO), based in Noida.'
+  'FiguredoutAI LLP builds growth infrastructure for Indian businesses. Founded by Tanishk Singhal (CEO) and Yashvardhan Awasthi (CTO). Registered in Noida.'
 
 export const metadata: Metadata = {
   // `absolute` stops the layout's `%s | FiguredoutAI` template appending to a
@@ -51,11 +59,17 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="relative isolate">
+      <BreadcrumbSchema
+        trail={[
+          { name: 'Home', path: '/' },
+          { name: 'About', path: '/about' },
+        ]}
+      />
       <PersonSchema
         id={TANISHK_ID}
         name="Tanishk Singhal"
         jobTitle="Co-Founder & Chief Executive Officer"
-        sameAs={['https://x.com/tanishk_ai']}
+        sameAs={[SOCIAL.tanishk.linkedin, SOCIAL.tanishk.x, SOCIAL.tanishk.instagram]}
       />
       <PersonSchema
         id={YASHVARDHAN_ID}
@@ -74,6 +88,31 @@ export default function AboutPage() {
             Most businesses do not lose enquiries because nobody cared. They lose them because the
             enquiry arrived at 9:12 on a Tuesday and the person who could act on it was already on a
             call.
+          </p>
+
+          {/*
+            The plain-prose answer to "what is FiguredoutAI, who founded it,
+            where is it registered, and what does it do" — in one passage,
+            near the top, naming the company rather than saying "we".
+
+            This exists because of how it gets read. A search engine hedging
+            a brand result with "did you mean" and an assistant hedging with
+            "if you are referring to FiguredoutAI" are the same failure: no
+            source states the identity outright in a form that can be lifted
+            and quoted. Every other paragraph on this page argues a position;
+            this one is the record. It is deliberately dull, self-contained,
+            and free of anything the site cannot stand behind.
+
+            It is prose, not a schema block, on purpose — the structured data
+            in the head says the same thing, but a passage a model can quote
+            is what actually lands in an answer.
+          */}
+          <p className="mt-6 max-w-[680px] text-lg leading-[1.6] text-body">
+            FiguredoutAI is a growth infrastructure company registered in Noida, Uttar Pradesh, India
+            as FiguredoutAI LLP, LLPIN ACZ-0822. It was founded by Tanishk Singhal, Chief Executive
+            Officer, and Yashvardhan Awasthi, Chief Technology Officer. It builds conversational
+            qualification layers: systems that read an incoming enquiry against a business&rsquo;s own
+            criteria and decide what happens to it, rather than only replying to it.
           </p>
         </header>
 

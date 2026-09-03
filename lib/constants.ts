@@ -53,6 +53,45 @@ export const CTA = {
 } as const
 
 /* ------------------------------------------------------------------ *
+ * Social profiles
+ * ------------------------------------------------------------------ */
+
+/**
+ * Canonical profile URLs — tracking parameters deliberately stripped.
+ *
+ * The URLs as shared from the mobile apps carry share-attribution query
+ * strings (`utm_source=share_via`, `igsh=`, `?s=11&t=`). Those identify the
+ * share event, not the profile, and they expire. Two reasons they must not
+ * ship: schema.org `sameAs` is an identity claim, and a URL that resolves
+ * differently later is a broken claim; and a crawler treats the parameterised
+ * and clean URLs as separate entities, which is the opposite of what
+ * `sameAs` is for — consolidating identity across the web.
+ */
+export const SOCIAL = {
+  company: {
+    linkedin: 'https://www.linkedin.com/company/figuredout-ai/',
+    instagram: 'https://www.instagram.com/figuredout.ai',
+  },
+  tanishk: {
+    linkedin: 'https://www.linkedin.com/in/tanishksinghal',
+    x: 'https://x.com/tanishk_ai',
+    instagram: 'https://www.instagram.com/tanishk.figureitout',
+  },
+} as const
+
+/**
+ * Everything the Organization entity claims as itself. Order is not
+ * meaningful to a consumer, but the company profiles lead because they are
+ * the strongest corroboration of the entity's own identity.
+ */
+export const ORGANIZATION_SAME_AS: readonly string[] = [
+  SOCIAL.company.linkedin,
+  SOCIAL.company.instagram,
+  SOCIAL.tanishk.linkedin,
+  SOCIAL.tanishk.x,
+]
+
+/* ------------------------------------------------------------------ *
  * Industries
  * ------------------------------------------------------------------ */
 
