@@ -47,3 +47,9 @@ tsconfig.tsbuildinfo
 snap_*.html
 snapshot_*.html
 about.html
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
