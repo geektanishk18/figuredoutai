@@ -34,6 +34,16 @@ interface IndustryDemoProps {
    * changes on those routes.
    */
   showHeading?: boolean
+  /**
+   * Renders the scripted conversation below the calculator.
+   *
+   * Industry pages set this false. The replay is a modelled scenario, and on a
+   * vertical page it competes with the calculator for the same attention
+   * immediately below the hero — where the calculator is what the reader can
+   * act on with their own numbers. It stays on the homepage and /industries,
+   * where showing the layer working is the job of the section.
+   */
+  showConversation?: boolean
   className?: string
 }
 
@@ -41,6 +51,7 @@ export function IndustryDemo({
   defaultIndustry = 'clinics',
   showSwitcher = true,
   showHeading = false,
+  showConversation = true,
   className,
 }: IndustryDemoProps) {
   const [slug, setSlug] = useState<IndustrySlug>(defaultIndustry)
@@ -145,19 +156,29 @@ export function IndustryDemo({
         headingId={calculatorHeadingId}
       />
 
-      <div className="mt-8">
-        <ConversationDemo
-          industry={industry}
-          tab={tab}
-          onTabChange={setTab}
-          reducedMotion={reducedMotion}
-          headingId={conversationHeadingId}
-        />
-      </div>
+      {showConversation ? (
+        <>
+          <div className="mt-8">
+            <ConversationDemo
+              industry={industry}
+              tab={tab}
+              onTabChange={setTab}
+              reducedMotion={reducedMotion}
+              headingId={conversationHeadingId}
+            />
+          </div>
 
-      <div className="mt-5 flex justify-center">
-        <ProvenanceChip tier="scenario" />
-      </div>
+          {/*
+            The provenance chip labels the conversation, not the calculator —
+            the calculator is the reader's own arithmetic and needs no scenario
+            disclosure. It travels with the replay rather than sitting outside
+            it, so hiding one cannot leave the other unlabelled.
+          */}
+          <div className="mt-5 flex justify-center">
+            <ProvenanceChip tier="scenario" />
+          </div>
+        </>
+      ) : null}
     </div>
   )
 }
