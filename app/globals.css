@@ -118,14 +118,14 @@
     background: linear-gradient(
       90deg,
       theme('colors.teal.DEFAULT') var(--pct, 50%),
-      rgba(144, 194, 231, 0.15) var(--pct, 50%)
+      rgb(var(--brand-sky-rgb) / 0.15) var(--pct, 50%)
     );
   }
 
   .range::-moz-range-track {
     height: 6px;
     border-radius: 99px;
-    background: rgba(144, 194, 231, 0.15);
+    background: rgb(var(--brand-sky-rgb) / 0.15);
   }
 
   .range::-moz-range-progress {
@@ -260,7 +260,7 @@
     opacity: 0;
     background: radial-gradient(
       18rem circle at var(--edge-x, 50%) var(--edge-y, 0%),
-      rgba(144, 194, 231, 0.16),
+      rgb(var(--brand-sky-rgb) / 0.16),
       transparent 60%
     );
     transition: opacity 220ms ease;
@@ -292,7 +292,7 @@
   @media (hover: hover) {
     .glass-lift:hover {
       transform: translateY(-2px);
-      border-color: rgba(144, 194, 231, 0.22);
+      border-color: rgb(var(--brand-sky-rgb) / 0.22);
     }
   }
 
@@ -309,7 +309,7 @@
     background: linear-gradient(
       100deg,
       transparent 38%,
-      rgba(240, 237, 239, 0.10) 50%,
+      rgb(var(--brand-paper-rgb) / 0.10) 50%,
       transparent 62%
     );
     background-size: 260% 100%;

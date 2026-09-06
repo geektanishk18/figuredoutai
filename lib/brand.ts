@@ -50,6 +50,32 @@ export const BRAND = {
 } as const
 
 /**
+ * Routing outcomes — the three-state vocabulary.
+ *
+ * Every enquiry the layer handles resolves to one of these. That trichotomy is
+ * the company's actual claim ("a chatbot answers, a decision layer decides"),
+ * so it gets a named vocabulary rather than three colours picked per component:
+ * a diagram, the calculator's result and a routing table all have to mean the
+ * same thing by the same green.
+ *
+ * These are roles over existing tokens, not new colours — the palette stays at
+ * nine. `handled` and `held` are deliberately the same amber/green pair the
+ * scenario data already reached for by raw hex.
+ */
+export const ROUTING = {
+  /** Acted on by a person. Escalated, flagged, owned. */
+  escalated: BRAND.amber,
+  /** Resolved by the layer without a human. */
+  handled: BRAND.ok,
+  /** Parked, waitlisted, or answered but not progressed. */
+  held: BRAND.sky,
+  /** Declined, or lost. The calculator's figure is the same red. */
+  lost: BRAND.loss,
+} as const
+
+export type RoutingState = keyof typeof ROUTING
+
+/**
  * Glass surface system.
  *
  * Three tiers, and components pick a tier rather than writing blur values. That

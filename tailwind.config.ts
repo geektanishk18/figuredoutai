@@ -14,6 +14,15 @@ import { BRAND, CHAT, GLASS, GLASS_LAYERS } from './lib/brand'
  * `teal` measures 3.02:1 on ink. It is a surface, fill and CTA colour only —
  * never use it for body text. Text sitting on a teal surface uses `paper` (5.67:1).
  */
+/**
+ * `#RRGGBB` -> `"R G B"`, for CSS custom properties that need to carry an alpha.
+ * Derived from the token rather than transcribed, so the two cannot drift.
+ */
+function channels(hex: string): string {
+  const n = Number.parseInt(hex.replace('#', ''), 16)
+  return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`
+}
+
 const config: Config = {
   content: [
     './app/**/*.{ts,tsx,mdx}',
@@ -72,6 +81,59 @@ const config: Config = {
       fontFamily: {
         heading: ['var(--font-poppins)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
+
+      /**
+       * The type scale.
+       *
+       * Before this existed the site carried 35 distinct arbitrary font sizes —
+       * `text-[15px]`, `text-[15.5px]`, `text-[16px]` and `text-[16.5px]` were
+       * four separate body sizes nobody could tell apart, and every new
+       * component invented a 36th. Colour and spacing were already single-source
+       * (`lib/brand.ts`, the named spacing steps); type was the one axis with no
+       * system behind it.
+       *
+       * Nine steps, named by the job rather than the size, on a 1.25 major third
+       * anchored at 1rem. Line-height and tracking travel with the step, so a
+       * heading cannot be set at the right size with the wrong leading.
+       *
+       * The two display steps clamp because they are the only type on the page
+       * that should respond to viewport width; everything from `h3` down holds
+       * its size and lets the measure do the work instead.
+       *
+       * Tailwind's default numeric sizes (`text-sm`, `text-lg`) still resolve —
+       * `extend` adds rather than replaces — so existing call sites keep working
+       * while components migrate onto these steps as they are touched.
+       */
+      fontSize: {
+        /** Eyebrow pills and provenance chips. Uppercase, so tracked out. */
+        chip: ['0.6875rem', { lineHeight: '1', letterSpacing: '0.14em' }],
+        /** Diagram labels, table headers, stat captions. */
+        micro: ['0.75rem', { lineHeight: '1.4', letterSpacing: '0.02em' }],
+        /** Secondary copy, captions, table cells. */
+        small: ['0.875rem', { lineHeight: '1.5' }],
+        /**
+         * The default. Replaces the 15 / 15.5 / 16 / 16.5px cluster.
+         *
+         * Named `copy`, not `body`: `colors.body` already exists, and Tailwind
+         * serves both `fontSize` and `textColor` from the same `text-*` prefix.
+         * A `fontSize.body` step would make `text-body` — used 76 times as a
+         * colour — resolve to whichever plugin registered last.
+         */
+        copy: ['1rem', { lineHeight: '1.6' }],
+        /**
+         * Page ledes and the opening prose every page owes its core question.
+         * One step above body so the answer reads as the answer.
+         */
+        lede: ['1.0625rem', { lineHeight: '1.65' }],
+        /** Card titles, disclosure summaries. */
+        h4: ['1.125rem', { lineHeight: '1.35', letterSpacing: '-0.01em' }],
+        /** Sub-section headings, FAQ questions. */
+        h3: ['1.375rem', { lineHeight: '1.25', letterSpacing: '-0.015em' }],
+        /** Section headings. */
+        h2: ['clamp(1.5rem, 2.6vw, 1.875rem)', { lineHeight: '1.18', letterSpacing: '-0.02em' }],
+        /** Page H1. The only step allowed to dominate a viewport. */
+        display: ['clamp(2.125rem, 5.4vw, 3.875rem)', { lineHeight: '1.05', letterSpacing: '-0.03em' }],
       },
       maxWidth: {
         container: '72rem',
@@ -157,6 +219,19 @@ const config: Config = {
           '--brand-sky': BRAND.sky,
           '--brand-peak': BRAND.peak,
           '--brand-paper': BRAND.paper,
+          /**
+           * Space-separated channels, for the rules in `globals.css` that need
+           * a brand colour at partial alpha — slider tracks, the edge-light
+           * gradient, the hover border.
+           *
+           * Those were written as literal `rgba(144, 194, 231, …)`, which is
+           * `sky` copied by hand into five places with no link back to the
+           * token. A hex custom property cannot be given an alpha, so the
+           * channels are emitted separately and composed as
+           * `rgb(var(--brand-sky-rgb) / 0.15)`.
+           */
+          '--brand-sky-rgb': channels(BRAND.sky),
+          '--brand-paper-rgb': channels(BRAND.paper),
         },
       })
     }),
