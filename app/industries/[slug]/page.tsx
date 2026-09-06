@@ -8,17 +8,15 @@ import Travel from '@/content/industries/travel.mdx'
 import Recruitment from '@/content/industries/recruitment.mdx'
 import Hvac from '@/content/industries/hvac.mdx'
 import { IndustryDemo } from '@/components/demo'
-import { PageShell } from '@/components/content/PageShell'
-import { ScenarioBlock } from '@/components/content/ScenarioBlock'
 import { DecisionArchitecture } from '@/components/content/DecisionArchitecture'
 import { ConflictResolution } from '@/components/content/ConflictResolution'
-import { NextStepBand } from '@/components/content/NextStepBand'
+import { NextStepBand, hasNextStep } from '@/components/content/NextStepBand'
 import { Faq, FaqSchema } from '@/components/content/Faq'
 import { BreadcrumbSchema, ProofSchema, ServiceSchema } from '@/components/seo/JsonLd'
 import { ComparisonMatrix, IntakeFlow } from '@/components/diagram'
 import { QualifyIcon } from '@/components/icons'
 import { PageBackdrop } from '@/components/layout/PageBackdrop'
-import { Button, Container, Eyebrow, SectionHeading } from '@/components/ui'
+import { Button, Container, Eyebrow } from '@/components/ui'
 import { INDUSTRIES, SITE_URL, type IndustrySlug, getIndustry } from '@/lib/constants'
 import { INDUSTRY_FAQS } from '@/lib/content/industry-faqs'
 import { INDUSTRY_DEPTH } from '@/lib/content/industry-depth'
@@ -66,7 +64,13 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
   const Content = CONTENT[industry.slug]
   const scenario = getScenario(industry.slug)
   const faqs = INDUSTRY_FAQS[industry.slug]
-  const depth = INDUSTRY_DEPTH[industry.slug]
+  /*
+   * Every vertical now has depth content, so this is always defined. The
+   * non-null assertion is the honest expression of that: `INDUSTRY_DEPTH` stays
+   * a Partial so adding a seventh vertical is a type error at the data file
+   * rather than a page that silently renders half a layout.
+   */
+  const depth = INDUSTRY_DEPTH[industry.slug]!
 
   /*
    * Structured data is identical on both layouts and is emitted once, above the
@@ -96,52 +100,6 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
       <FaqSchema items={faqs} />
     </>
   )
-
-  /*
-   * Verticals not yet restructured keep the layout they have. Migrating six
-   * pages in one change would be unreviewable, and a half-migrated page is
-   * worse than either end state — so the switch is per vertical and this branch
-   * is removed once `INDUSTRY_DEPTH` covers all six.
-   */
-  if (!depth) {
-    return (
-      <>
-        {schemas}
-        <PageShell
-          eyebrow={industry.label}
-          title={page.heading}
-          lede={<p>{page.lede}</p>}
-          ctas={[
-            { label: 'Get your intake audit', href: '/contact' },
-            { label: 'All industries', href: '/industries' },
-          ]}
-        >
-          <Content />
-          <ScenarioBlock scenario={scenario} />
-          <ConflictResolution slug={industry.slug} headingId="conflict-resolution" />
-          <Faq items={faqs} />
-        </PageShell>
-
-        <section
-          aria-labelledby="industry-demo-heading"
-          className="border-t border-line bg-panel/30 py-20 sm:py-24"
-        >
-          <div className="mx-auto w-full max-w-container px-5 sm:px-6 lg:px-8">
-            <SectionHeading
-              id="industry-demo-heading"
-              align="center"
-              eyebrow="See it work"
-              title={`Put your own ${page.sentenceNoun} numbers in.`}
-              description="The same enquiry, handled two ways — and what the gap between them costs over a year."
-              className="mx-auto mb-10 text-center"
-            />
-            <IndustryDemo defaultIndustry={industry.slug} showSwitcher />
-            <NextStepBand slug={industry.slug} headingId="next-step" />
-          </div>
-        </section>
-      </>
-    )
-  }
 
   return (
     <>
@@ -250,20 +208,41 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
             headingId="decision-architecture"
           />
 
+          {/*
+            Precedence rules. Kept rather than masked: "escalation always
+            outranks automation" is a statement of principle at the same
+            altitude as the depth panels, not a specification anyone could
+            build from. Renders only for the verticals the canvas authors it
+            for.
+          */}
+          <div className="max-w-prose">
+            <ConflictResolution slug={industry.slug} headingId="conflict-resolution" />
+          </div>
+
           {/* ── 7. Q&A ──────────────────────────────────────────── */}
           <div className="max-w-prose">
             <Faq items={faqs} />
           </div>
 
           {/* ── 8. CTA ──────────────────────────────────────────── */}
-          <div className="mt-16 flex flex-wrap gap-3 border-t border-line pt-10">
-            <Button href="/contact" variant="primary" size="lg">
-              Get your intake audit
-            </Button>
-            <Button href="/industries" variant="secondary" size="lg">
-              All industries
-            </Button>
-          </div>
+          {/*
+            NextStepBand names what the audit will tell *this* vertical, which
+            is better closing copy than a generic button pair. It only carries
+            data for some verticals, so the pair is the fallback rather than an
+            addition — two closing CTAs in a row would weaken both.
+          */}
+          {hasNextStep(industry.slug) ? (
+            <NextStepBand slug={industry.slug} headingId="next-step" />
+          ) : (
+            <div className="mt-16 flex flex-wrap gap-3 border-t border-line pt-10">
+              <Button href="/contact" variant="primary" size="lg">
+                Get your intake audit
+              </Button>
+              <Button href="/industries" variant="secondary" size="lg">
+                All industries
+              </Button>
+            </div>
+          )}
         </Container>
       </div>
     </>
