@@ -13,6 +13,15 @@ interface PageShellProps {
   lede?: ReactNode
   /** Rendered under the header, before the MDX body. */
   children: ReactNode
+  /**
+   * Rendered between the header and `children`, at full container width.
+   *
+   * `children` is clamped to the 44rem prose measure, which is right for body
+   * copy and wrong for a diagram: a four-node roadmap inside it is squeezed
+   * into the left half of the page with its labels wrapping. Anything with a
+   * horizontal structure of its own belongs here instead.
+   */
+  wide?: ReactNode
   ctas?: readonly PageCta[]
 }
 
@@ -20,7 +29,7 @@ interface PageShellProps {
  * The frame every long-form page shares: header, prose column, closing CTAs.
  * Body copy comes from `content/*.mdx`; this owns hierarchy and rhythm.
  */
-export function PageShell({ eyebrow, title, lede, children, ctas }: PageShellProps) {
+export function PageShell({ eyebrow, title, lede, children, wide, ctas }: PageShellProps) {
   return (
     <div className="relative isolate">
       <PageBackdrop />
@@ -31,6 +40,8 @@ export function PageShell({ eyebrow, title, lede, children, ctas }: PageShellPro
           <h1 className="mt-5 text-[2rem] font-bold leading-[1.1] sm:text-[2.75rem]">{title}</h1>
           {lede ? <div className="mt-6 text-lg text-body sm:text-xl">{lede}</div> : null}
         </header>
+
+        {wide ? <div className="mt-12">{wide}</div> : null}
 
         <div className="mt-4 max-w-prose">{children}</div>
 

@@ -23,15 +23,29 @@ const SERVICES = RAW.replace(/\s+/g, ' ')
 /** Verbatim clauses. If one is reworded deliberately, update it here in the same commit. */
 const PROTECTED = [
   // Deliverables
-  ['Service 01 heading', '## 01 · Qualification Logic Design'],
-  ['Service 02 heading', '## 02 · Conversational Decision Layer'],
-  ['Service 03 heading', '## 03 · Operating Visibility'],
+  /*
+   * Headings are matched without their former "01 · " / "02 · " / "03 · "
+   * prefixes. The three services are parallel offerings, not an ordered
+   * sequence, and the numbering implied a progression through them that the
+   * page does not describe. What the guard protects is that all three
+   * deliverables are still named — that is the scope-of-work concern, and it
+   * is unaffected by how they are labelled.
+   */
+  ['Service heading — logic design', '## Qualification logic design'],
+  ['Service heading — decision layer', '## The conversational decision layer'],
+  ['Service heading — operating visibility', '## Operating visibility'],
   ['Rule-set ownership', 'This is yours whether or not we build anything further.'],
   // Boundaries — the clauses that limit what we are on the hook for
   [
     'Never-does boundary',
     'improvise outside your rules, or make a decision it cannot explain',
   ],
+  /*
+   * The capability run-on became a real list, so the clause is matched by its
+   * first and last items rather than as one middle-dot string.
+   */
+  ['Capabilities — first response', 'First response, on every channel'],
+  ['Capabilities — escalation', 'Escalation, with the context attached'],
   ['Audit is free and kept', 'No cost, no obligation. You keep the map.'],
   ['Not lead generation', 'We are not a lead-generation service. We do not create demand.'],
   // Commercials

@@ -209,30 +209,6 @@
 
 
   /*
-   * The one-word heading accent. Board 1e reserves sky for exactly one word
-   * per headline, and every board sets it as a flat `color:#90C2E7`.
-   *
-   * Sky measures 10.49:1 on ink, so the accent is the most legible text on the
-   * page rather than the least — which is the opposite of what the clipped
-   * gradient this replaced achieved.
-   */
-  .liquid {
-    /*
-     * The accent word, in sky.
-     *
-     * This was a paper -> peak -> sky -> peak -> paper gradient clipped to the
-     * glyphs. Clipped text takes its colour from the middle of the run, so the
-     * word rendered as near-white and the "exactly one word in sky" rule that
-     * board 1e states — and that every board draws literally as
-     * `color:#90C2E7` — never actually reached the page.
-     *
-     * A flat colour is what the design specifies, and it is also the only
-     * version that survives `background-clip: text` being unsupported.
-     */
-    color: var(--brand-sky);
-  }
-
-  /*
    * Glass motion — specular, not structural.
    *
    * Light moves across the surface; the surface does not move. Everything here
@@ -297,7 +273,7 @@
   }
 
   /*
-   * Specular sweep on entry — the `.liquid` glint generalised to a panel.
+   * Specular sweep on entry. Runs once on a panel, then the element is inert.
    * Runs once, then the element is inert.
    */
   .glass-sweep::after {

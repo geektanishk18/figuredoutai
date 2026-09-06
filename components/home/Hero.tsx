@@ -1,4 +1,4 @@
-import { Button, Container, Eyebrow, GlowBackdrop, Liquid } from '@/components/ui'
+import { Button, Container, Eyebrow, GlowBackdrop } from '@/components/ui'
 import { CTA } from '@/lib/constants'
 
 /**
@@ -42,12 +42,26 @@ export function Hero() {
             id="hero-heading"
             className="mt-6 font-heading text-[clamp(2.125rem,5.4vw,4.75rem)] font-bold leading-[1.04] tracking-[-0.02em] text-paper"
           >
-            More revenue, handled by <Liquid>fewer</Liquid> people.
+            More revenue, handled by fewer people.
           </h1>
 
-          <p className="mt-7 max-w-[680px] text-lg leading-[1.6] text-body">
+          <p className="mt-7 max-w-[680px] text-lede text-body">
             We build and run the systems that sit between a business and the people trying to buy
             from it — so growth stops depending on how many people you can hire.
+          </p>
+
+          {/*
+            The homepage's core question is what this company actually does, and
+            the line above answers it in outcome terms only. This states the
+            mechanism, so the answer can be lifted from the top of the page
+            without a reader or a model having to infer it from the sections
+            below.
+          */}
+          <p className="mt-4 max-w-[680px] text-lede text-body">
+            A conversational decision layer takes first response on every channel an enquiry can
+            arrive through, applies the qualification rules your business already runs on, and
+            routes what matters to the person who should own it. Your team stops sorting and starts
+            on conversations that are already qualified.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3.5">

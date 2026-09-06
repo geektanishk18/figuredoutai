@@ -1,107 +1,33 @@
-import { Check, Minus } from 'lucide-react'
-import { Container, Liquid, Reveal, SectionHeading } from '@/components/ui'
-import { cn } from '@/lib/utils'
+import { Button, Container, Reveal, SectionHeading } from '@/components/ui'
 
-const CHATBOT = [
-  'Returns a scripted reply',
-  'Cannot rank urgency',
-  'Hands your team a transcript',
-  'The decision still waits for a human',
-]
-
-const DECISION_LAYER = [
-  'Answers first, on your rules',
-  'Scores and prioritises',
-  'Routes with context attached',
-  'Your team opens a decision',
-]
-
-function Column({
-  title,
-  kicker,
-  items,
-  emphasised,
-}: {
-  title: string
-  kicker: string
-  items: readonly string[]
-  emphasised?: boolean
-}) {
-  const Icon = emphasised ? Check : Minus
-
-  return (
-    <div
-      className={cn(
-        'rounded-card border p-6 sm:p-7',
-        // Glass on the emphasised column only. Both columns in glass would put
-        // two compositor layers side by side for no gain in contrast between
-        // them — the whole point is that one card reads as the answer.
-        emphasised
-          ? 'glass-panel glass-edge relative overflow-hidden border-sky/35'
-          : 'border-line bg-panel/50',
-      )}
-    >
-      <p
-        className={cn(
-          'font-heading text-[11px] font-semibold uppercase tracking-[0.16em]',
-          emphasised ? 'text-sky' : 'text-muted',
-        )}
-      >
-        {kicker}
-      </p>
-      <h3
-        className={cn(
-          'mt-2 text-xl font-semibold sm:text-2xl',
-          emphasised ? 'text-paper' : 'text-body',
-        )}
-      >
-        {title}
-      </h3>
-      <ul className="mt-5 space-y-3.5">
-        {items.map((item) => (
-          <li key={item} className="flex gap-3">
-            <Icon
-              aria-hidden="true"
-              className={cn(
-                'mt-0.5 h-4 w-4 flex-none',
-                emphasised ? 'text-ok' : 'text-muted',
-              )}
-            />
-            <span className={cn('text-[15px]', emphasised ? 'text-body' : 'text-muted')}>
-              {item}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
-
+/**
+ * The distinction, on the homepage — as a lead-in and a link.
+ *
+ * This used to carry the full two-column comparison, which /decision-layer also
+ * makes. Two pages on the same site arguing the same point in the same words
+ * compete for the same query, and the page that should win is the one whose
+ * entire subject it is.
+ *
+ * So the homepage states the distinction and hands off; `<ComparisonMatrix />`
+ * on /decision-layer does the work. This is a deliberate reduction in homepage
+ * content, and it is the one place in this redesign where removing text is the
+ * point rather than a cost.
+ */
 export function Comparison() {
   return (
     <Container as="section" aria-labelledby="comparison-heading" className="py-20 sm:py-28">
       <Reveal>
         <SectionHeading
           id="comparison-heading"
-          eyebrow="The distinction"
-          title={<>A chatbot answers. A decision layer <Liquid>decides</Liquid>.</>}
+          title="A chatbot answers. A decision layer decides."
+          description="A chatbot returns a scripted reply and leaves the decision to a human. A decision layer applies your rules, scores what arrives, routes it to an owner and escalates with the context attached. The human layer stays — it stops being the first layer."
         />
       </Reveal>
 
-      <Reveal className="mt-12 grid gap-5 lg:grid-cols-2">
-        <Column kicker="What most businesses were sold" title="A chatbot" items={CHATBOT} />
-        <Column
-          kicker="What we build"
-          title="A decision layer"
-          items={DECISION_LAYER}
-          emphasised
-        />
-      </Reveal>
-
-      <Reveal className="mt-10">
-        <p className="max-w-prose text-lg font-semibold text-paper">
-          The human layer stays. It stops being the first layer.
-        </p>
+      <Reveal className="mt-8">
+        <Button href="/decision-layer" variant="secondary">
+          What a decision layer does
+        </Button>
       </Reveal>
     </Container>
   )

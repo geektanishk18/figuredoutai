@@ -113,7 +113,6 @@ export default function IndustriesPage() {
           <SectionHeading
             id="industries-demo-heading"
             align="center"
-            eyebrow="See it work"
             title="Pick your industry. Put your own numbers in."
             description="The same enquiry, handled two ways — and what the gap between them costs over a year."
             className="mx-auto mb-10 text-center"

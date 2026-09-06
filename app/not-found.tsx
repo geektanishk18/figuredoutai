@@ -1,5 +1,20 @@
+import type { Metadata } from 'next'
 import { Button, Container, SectionHeading } from '@/components/ui'
 import { PageBackdrop } from '@/components/layout/PageBackdrop'
+
+/**
+ * This route exported no metadata, so it inherited the root default — which
+ * made the 404 page and the homepage ship an identical `<title>` and
+ * description. Two routes asserting the same title is the one duplication a
+ * crawler is guaranteed to notice, and the page it would notice it on is the
+ * one page on the site that should never be indexed at all.
+ */
+export const metadata: Metadata = {
+  title: 'Page Not Found',
+  description:
+    'This page does not exist or has moved. The site covers the decision layer, how engagements run, the industries we build for, and the intake audit.',
+  robots: { index: false, follow: true },
+}
 
 export default function NotFound() {
   return (

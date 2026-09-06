@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import { NumberedRows } from '@/components/about'
+import { CommitmentRows } from '@/components/about'
 import { LabelledSection } from '@/components/content/LabelledSection'
 import { PageBackdrop } from '@/components/layout/PageBackdrop'
-import { Container, Eyebrow, Liquid } from '@/components/ui'
+import { Container, Eyebrow } from '@/components/ui'
 import { ComparisonTable, GovernanceCards, VerificationGrid } from '@/components/why-us'
 import { howRows } from '@/lib/content/how-rows'
 import { engagements, howLede, verifyNote, whyLede } from '@/lib/content/why-sections'
@@ -39,16 +39,29 @@ export default function WhyUsPage() {
         <header className="max-w-[820px]">
           <Eyebrow>Why us</Eyebrow>
           <h1 className="mt-6 font-heading text-[clamp(2.125rem,5.4vw,3.875rem)] font-bold leading-[1.06] tracking-[-0.02em] text-paper">
-            Qualification logic is <Liquid>built</Liquid>, not downloaded.
+            Qualification logic is built, not downloaded.
           </h1>
-          <p className="mt-7 max-w-[680px] text-lg leading-[1.6] text-body">{whyLede}</p>
+          <p className="mt-7 max-w-[680px] text-lede text-body">{whyLede}</p>
+          {/*
+            The page's own question, answered outright. The lede above defines
+            what qualification logic is; a reader on this route is asking
+            something narrower — why have this built rather than bought or
+            configured — and that answer needs to be in plain prose near the
+            top rather than assembled from the sections below it.
+          */}
+          <p className="mt-5 max-w-[680px] text-lede text-body">
+            We build that logic from your criteria rather than shipping a template, document it in
+            language your team can read and change, and stay accountable for how it performs after
+            it goes live. What you own at the end is a rule set, not access to someone
+            else&rsquo;s product.
+          </p>
         </header>
 
         <LabelledSection label="How we work" intro={howLede} headingId="how-heading">
           <h2 id="how-heading" className="sr-only">
             How we work
           </h2>
-          <NumberedRows rows={howRows} />
+          <CommitmentRows rows={howRows} />
         </LabelledSection>
 
         <LabelledSection
@@ -58,7 +71,7 @@ export default function WhyUsPage() {
           intro={
             <h2 id="changes-heading" className={SECTION_H2}>
               The difference is not how well it talks. It is whether it knows what it is{' '}
-              <Liquid>listening for</Liquid>.
+              listening for.
             </h2>
           }
         >

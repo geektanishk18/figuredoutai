@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { ProvenanceChip } from '@/components/content'
-import { Liquid, SectionHeading } from '@/components/ui'
+import { SectionHeading } from '@/components/ui'
 import type { IndustrySlug } from '@/lib/constants'
 import { useReducedMotion } from '@/lib/hooks/useReducedMotion'
 import { cn } from '@/lib/utils'
@@ -91,18 +91,16 @@ export function IndustryDemo({
         <SectionHeading
           id={questionHeadingId}
           align="center"
-          eyebrow={industry.demoHeader.eyebrow}
           title={
-            // The outer span reserves height and centres vertically; its only
-            // child is a single inline run so ordinary text wrapping still
-            // applies to it. A flex container with three separate children —
-            // the leading text, the Liquid span, and the trailing text — lays
-            // each one out as its own flex item instead of one wrapped
-            // paragraph, which breaks into a false multi-column grid.
+            // `question` is stored split into before/accent/after because the
+            // accent used to be a coloured span. The accent is gone, so the
+            // three parts are simply concatenated — the data shape is left
+            // alone rather than migrated, since it costs nothing and the six
+            // strings read correctly joined.
             <span className="flex min-h-[4.25rem] items-center justify-center sm:min-h-[3.75rem] lg:min-h-[4.5rem]">
               <span>
                 {industry.demoHeader.question.before}
-                <Liquid>{industry.demoHeader.question.accent}</Liquid>
+                {industry.demoHeader.question.accent}
                 {industry.demoHeader.question.after}
               </span>
             </span>

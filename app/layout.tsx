@@ -35,7 +35,13 @@ export const metadata: Metadata = {
     default: 'FiguredoutAI — Scale Revenue Without Scaling Chaos',
     template: '%s | FiguredoutAI',
   },
-  description: COMPANY.positioning,
+  /*
+   * `COMPANY.positioning` is 80 characters — a good tagline, but short of the
+   * 120–155 a description wants, so search results were padding it with text
+   * lifted from the page. It stays as the opening clause and the mechanism is
+   * stated after it, which is what a reader scanning results is deciding on.
+   */
+  description: `${COMPANY.positioning} We build the decision layer that qualifies and routes every enquiry.`,
   applicationName: COMPANY.name,
   alternates: { canonical: '/' },
   openGraph: {
@@ -44,7 +50,13 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: SITE_URL,
     title: 'FiguredoutAI — Scale Revenue Without Scaling Chaos',
-    description: COMPANY.positioning,
+    /*
+   * `COMPANY.positioning` is 80 characters — a good tagline, but short of the
+   * 120–155 a description wants, so search results were padding it with text
+   * lifted from the page. It stays as the opening clause and the mechanism is
+   * stated after it, which is what a reader scanning results is deciding on.
+   */
+  description: `${COMPANY.positioning} We build the decision layer that qualifies and routes every enquiry.`,
     /*
       The delivered card, served byte-for-byte from /public. It is deliberately
       not regenerated through next/og: the file is the approved artwork, and
@@ -55,7 +67,13 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'FiguredoutAI — Scale Revenue Without Scaling Chaos',
-    description: COMPANY.positioning,
+    /*
+   * `COMPANY.positioning` is 80 characters — a good tagline, but short of the
+   * 120–155 a description wants, so search results were padding it with text
+   * lifted from the page. It stays as the opening clause and the mechanism is
+   * stated after it, which is what a reader scanning results is deciding on.
+   */
+  description: `${COMPANY.positioning} We build the decision layer that qualifies and routes every enquiry.`,
     images: ['/brand/og-image.png'],
   },
   robots: {

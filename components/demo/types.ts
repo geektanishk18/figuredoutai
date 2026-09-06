@@ -69,8 +69,10 @@ export interface IndustryDemo {
    * switcher, so `clinics` is the one pair with a board source; the other five
    * are new copy written to the same grammatical shape when the switcher was
    * added to the homepage. `question` is split at the phrase board 1e's "one
-   * word (or phrase) per headline in sky" rule accents, so the Liquid treatment
-   * survives the string becoming per-vertical instead of hardcoded JSX.
+   * word (or phrase) per headline in sky" rule accented. That accent has since
+   * been removed site-wide, so the three parts are simply concatenated at the
+   * call site; the split shape is kept because the strings read correctly
+   * joined and migrating six records buys nothing.
    */
   demoHeader: {
     eyebrow: string

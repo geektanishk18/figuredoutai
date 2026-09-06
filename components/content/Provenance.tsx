@@ -48,14 +48,20 @@ export function Provenance({ tier, className }: { tier: PublishableTier; classNa
   if (!entry) throw new Error(`Unknown Provenance tier "${tier}".`)
 
   return (
-    // Styling is board 1e's provenance chip, to the value: 9px Inter 500 at
-    // 0.2em, sky at 72% on a 20% sky border, a 4px radius, and a 1px leading
-    // tick rather than a dot. The chip is deliberately quiet — it is a
-    // disclosure, not a badge, and must not read as a credential.
+    // Board 1e's provenance chip, with one deviation: it specifies 9px, and
+    // this renders at the 11px `chip` step instead.
+    //
+    // 9px is below any reasonable legibility floor, and of everything on the
+    // page this is the element that must stay readable — it is the disclosure
+    // that a scenario is modelled rather than delivered client work. A
+    // compliance notice nobody can read is not a compliance notice. Everything
+    // else about the treatment is unchanged, so it stays as quiet as the board
+    // intends: it is a disclosure, not a badge, and must not read as a
+    // credential.
     <p
       className={cn(
         'inline-flex w-fit items-center gap-2 rounded-chip border border-sky/20 bg-panel px-2.5 py-1',
-        'font-sans text-[9px] font-medium uppercase leading-none tracking-[0.2em] text-sky/[0.72]',
+        'font-sans text-chip font-medium uppercase tracking-[0.2em] text-sky/[0.72]',
         className,
       )}
     >
