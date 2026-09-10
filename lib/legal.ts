@@ -136,13 +136,13 @@ export const PRIVACY_SECTIONS: readonly LegalSection[] = [
     ],
   },
   {
-    heading: '11. Changes',
+    heading: '12. Changes',
     paragraphs: [
       'We may update this Privacy Policy periodically. Updated versions become effective when published on our website.',
     ],
   },
   {
-    heading: '12. Contact',
+    heading: '13. Contact',
     paragraphs: ['FiguredoutAI LLP'],
     email: 'hello@figuredoutai.com',
   },
