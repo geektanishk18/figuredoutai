@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
-import { Beliefs, EntityBlock, FounderQuoteBand, Founders, NumberedRows } from '@/components/about'
+import { pageMeta } from '@/lib/page-meta'
+import { Beliefs, EntityBlock, FounderQuoteBand, Founders, CommitmentRows } from '@/components/about'
 import { LabelledSection } from '@/components/content/LabelledSection'
+import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import { PageBackdrop } from '@/components/layout/PageBackdrop'
-import { BreadcrumbSchema, PersonSchema, TANISHK_ID, YASHVARDHAN_ID } from '@/components/seo/JsonLd'
+import { PersonSchema, TANISHK_ID, YASHVARDHAN_ID } from '@/components/seo/JsonLd'
 import { SOCIAL } from '@/lib/constants'
-import { Container, Eyebrow, Liquid } from '@/components/ui'
+import { Container, Eyebrow } from '@/components/ui'
 import { existParas } from '@/lib/content/exist-paras'
 import { workRows } from '@/lib/content/work-rows'
 
@@ -18,32 +20,16 @@ import { workRows } from '@/lib/content/work-rows'
 */
 const TITLE = 'About FiguredoutAI — Tanishk Singhal & Yashvardhan Awasthi'
 const DESCRIPTION =
-  'FiguredoutAI LLP builds growth infrastructure for Indian businesses. Founded by Tanishk Singhal (CEO) and Yashvardhan Awasthi (CTO). Registered in Noida.'
+  'FiguredoutAI LLP builds growth infrastructure for Indian businesses. Founded by Tanishk Singhal (CEO) and Yashvardhan Awasthi (CTO) in Uttar Pradesh.'
 
-export const metadata: Metadata = {
-  // `absolute` stops the layout's `%s | FiguredoutAI` template appending to a
-  // title that already names the brand.
-  title: { absolute: TITLE },
+export const metadata: Metadata = pageMeta({
+  title: TITLE,
   description: DESCRIPTION,
-  alternates: { canonical: '/about' },
-  // `openGraph` on a route replaces the parent's object wholesale rather than
-  // merging into it (see app/opengraph-image.tsx's own note on this same
-  // trap) — title/description/siteName/locale have to be repeated here or
-  // a shared link shows the homepage's copy instead of this page's.
-  openGraph: {
-    type: 'website',
-    url: '/about',
-    siteName: 'FiguredoutAI',
-    locale: 'en_IN',
-    title: TITLE,
-    description: DESCRIPTION,
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: TITLE,
-    description: DESCRIPTION,
-  },
-}
+  path: '/about',
+  // The title already names the brand, so the layout's `%s | FiguredoutAI`
+  // template is skipped.
+  absoluteTitle: true,
+})
 
 /**
  * Board 1d, section for section.
@@ -59,12 +45,6 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="relative isolate">
-      <BreadcrumbSchema
-        trail={[
-          { name: 'Home', path: '/' },
-          { name: 'About', path: '/about' },
-        ]}
-      />
       <PersonSchema
         id={TANISHK_ID}
         name="Tanishk Singhal"
@@ -79,10 +59,27 @@ export default function AboutPage() {
       <PageBackdrop />
 
       <Container className="pb-24 pt-16 sm:pt-20">
+        <Breadcrumbs
+          trail={[
+            { name: 'Home', path: '/' },
+            { name: 'About', path: '/about' },
+          ]}
+        />
         <header className="max-w-[820px]">
           <Eyebrow>About FiguredoutAI</Eyebrow>
-          <h1 className="mt-6 font-heading text-[clamp(2.125rem,5.4vw,3.875rem)] font-bold leading-[1.06] tracking-[-0.02em] text-paper">
-            We build the layer that <Liquid>decides</Liquid>.
+          {/*
+            This read "We build the layer that decides." — a product tagline, on
+            the one page that carries the Organization and Person schema and is
+            the canonical answer to "who is this company". The H1 is the
+            strongest signal on the page about what the page is about, and it
+            was spending that signal on positioning already made on four other
+            routes.
+            It now names the entity and the two people, matching the schema
+            beneath it. The tagline is not lost — it is what /decision-layer and
+            the homepage are for. The founders' own words stay in the body.
+          */}
+          <h1 className="mt-6 font-heading text-display font-bold text-paper">
+            FiguredoutAI LLP, founded by Tanishk Singhal and Yashvardhan Awasthi.
           </h1>
           <p className="mt-7 max-w-[680px] text-lg leading-[1.6] text-body">
             Most businesses do not lose enquiries because nobody cared. They lose them because the
@@ -108,7 +105,7 @@ export default function AboutPage() {
             is what actually lands in an answer.
           */}
           <p className="mt-6 max-w-[680px] text-lg leading-[1.6] text-body">
-            FiguredoutAI is a growth infrastructure company registered in Noida, Uttar Pradesh, India
+            FiguredoutAI is a growth infrastructure company registered in Farrukhabad, Uttar Pradesh, India
             as FiguredoutAI LLP, LLPIN ACZ-0822. It was founded by Tanishk Singhal, Chief Executive
             Officer, and Yashvardhan Awasthi, Chief Technology Officer. It builds conversational
             qualification layers: systems that read an incoming enquiry against a business&rsquo;s own
@@ -147,7 +144,7 @@ export default function AboutPage() {
           <h2 id="work-heading" className="sr-only">
             How we work
           </h2>
-          <NumberedRows rows={workRows} />
+          <CommitmentRows rows={workRows} />
         </LabelledSection>
       </Container>
 

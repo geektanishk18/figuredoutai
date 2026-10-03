@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { Container, Liquid, Reveal, SectionHeading } from '@/components/ui'
+import { Container, Reveal, SectionHeading } from '@/components/ui'
 import { INDUSTRIES } from '@/lib/constants'
 
 export function IndustriesGrid() {
@@ -9,8 +9,7 @@ export function IndustriesGrid() {
       <Reveal>
         <SectionHeading
           id="industries-heading"
-          eyebrow="Industries"
-          title={<>Where volume outruns the people <Liquid>handling it</Liquid>.</>}
+          title="Where volume outruns the people handling it."
           description="Different intake paths, the same failure."
         />
       </Reveal>

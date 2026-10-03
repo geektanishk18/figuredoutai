@@ -1,6 +1,7 @@
 'use client'
 
 import { useId } from 'react'
+import { ProportionBar, type Segment } from '@/components/diagram'
 import { formatCount, formatINR, formatPercent } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import type { IndustryDemo, SliderSpec } from './types'
@@ -15,6 +16,8 @@ export interface CalculatorResult {
   missedPerMonth: number
   realOpportunities: number
   annualLoss: number
+  /** Everything that arrived this month — the denominator the bar draws against. */
+  totalPerMonth: number
 }
 
 /**
@@ -25,10 +28,11 @@ export interface CalculatorResult {
  *   annualLoss        = realOpportunities × unitValue × 12
  */
 export function calculate(industry: IndustryDemo, values: CalculatorValues): CalculatorResult {
-  const missedPerMonth = values.volume * (values.missPct / 100) * industry.workingDays
+  const totalPerMonth = values.volume * industry.workingDays
+  const missedPerMonth = totalPerMonth * (values.missPct / 100)
   const realOpportunities = missedPerMonth * industry.conversionFactor
   const annualLoss = realOpportunities * values.unitValue * 12
-  return { missedPerMonth, realOpportunities, annualLoss }
+  return { missedPerMonth, realOpportunities, annualLoss, totalPerMonth }
 }
 
 function formatValue(spec: SliderSpec, value: number): string {
@@ -89,8 +93,39 @@ export function LossCalculator({
   onChange,
   headingId,
 }: LossCalculatorProps) {
-  const { missedPerMonth, realOpportunities, annualLoss } = calculate(industry, values)
+  const { missedPerMonth, realOpportunities, annualLoss, totalPerMonth } = calculate(
+    industry,
+    values,
+  )
   const conversionPct = Math.round(industry.conversionFactor * 100)
+
+  /*
+   * The month, to scale. Shares are taken against `totalPerMonth` so the three
+   * segments always sum to 100% and the bar cannot drift from the figures
+   * printed beside it.
+   *
+   * `missPct` is bounded above zero by the slider spec, so `totalPerMonth` is
+   * never zero here — but the guard costs nothing and a future slider range
+   * starting at zero would otherwise produce NaN widths and an empty bar.
+   */
+  const share = (n: number) => (totalPerMonth > 0 ? (n / totalPerMonth) * 100 : 0)
+  const segments: readonly Segment[] = [
+    {
+      pct: share(totalPerMonth - missedPerMonth),
+      label: `Reached you (${formatCount(totalPerMonth - missedPerMonth)})`,
+      className: 'bg-ok',
+    },
+    {
+      pct: share(realOpportunities),
+      label: `Counted as lost ${industry.noun} (${formatCount(realOpportunities)})`,
+      className: 'bg-loss',
+    },
+    {
+      pct: share(missedPerMonth - realOpportunities),
+      label: `Missed, not counted (${formatCount(missedPerMonth - realOpportunities)})`,
+      className: 'bg-muted/30',
+    },
+  ]
 
   // Step the display size down as the figure lengthens, mirroring the design
   // source. The thresholds are on the formatted string because Indian grouping
@@ -185,7 +220,24 @@ export function LossCalculator({
         </div>
       </div>
 
-      <p className="mt-3 px-1 text-center text-[11.5px] leading-relaxed text-muted">
+      {/*
+        The result, drawn. The bar sits below the figures rather than replacing
+        them: the numbers are what get quoted, the bar is what makes the
+        conservative assumption visible — the counted slice is plainly a
+        minority of everything missed.
+      */}
+      <ProportionBar
+        className="mt-4"
+        segments={segments}
+        /*
+          `missedNoun` is always plural and must be used as-is. Stripping a
+          trailing "s" to singularise it produces "enquirie", and one vertical's
+          noun is "orders and bookings", which has no singular form at all.
+        */
+        totalLabel={`All ${industry.missedNoun} arriving in a month — ${formatCount(totalPerMonth)} at these settings.`}
+      />
+
+      <p className="mt-4 px-1 text-center text-[11.5px] leading-relaxed text-muted">
         Deliberately conservative. Only{' '}
         <strong className="font-semibold text-paper">{conversionPct}%</strong> of unanswered{' '}
         {industry.missedNoun} are counted as real {industry.noun} — the same factor on every

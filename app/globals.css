@@ -118,14 +118,14 @@
     background: linear-gradient(
       90deg,
       theme('colors.teal.DEFAULT') var(--pct, 50%),
-      rgba(144, 194, 231, 0.15) var(--pct, 50%)
+      rgb(var(--brand-sky-rgb) / 0.15) var(--pct, 50%)
     );
   }
 
   .range::-moz-range-track {
     height: 6px;
     border-radius: 99px;
-    background: rgba(144, 194, 231, 0.15);
+    background: rgb(var(--brand-sky-rgb) / 0.15);
   }
 
   .range::-moz-range-progress {
@@ -209,30 +209,6 @@
 
 
   /*
-   * The one-word heading accent. Board 1e reserves sky for exactly one word
-   * per headline, and every board sets it as a flat `color:#90C2E7`.
-   *
-   * Sky measures 10.49:1 on ink, so the accent is the most legible text on the
-   * page rather than the least — which is the opposite of what the clipped
-   * gradient this replaced achieved.
-   */
-  .liquid {
-    /*
-     * The accent word, in sky.
-     *
-     * This was a paper -> peak -> sky -> peak -> paper gradient clipped to the
-     * glyphs. Clipped text takes its colour from the middle of the run, so the
-     * word rendered as near-white and the "exactly one word in sky" rule that
-     * board 1e states — and that every board draws literally as
-     * `color:#90C2E7` — never actually reached the page.
-     *
-     * A flat colour is what the design specifies, and it is also the only
-     * version that survives `background-clip: text` being unsupported.
-     */
-    color: var(--brand-sky);
-  }
-
-  /*
    * Glass motion — specular, not structural.
    *
    * Light moves across the surface; the surface does not move. Everything here
@@ -260,7 +236,7 @@
     opacity: 0;
     background: radial-gradient(
       18rem circle at var(--edge-x, 50%) var(--edge-y, 0%),
-      rgba(144, 194, 231, 0.16),
+      rgb(var(--brand-sky-rgb) / 0.16),
       transparent 60%
     );
     transition: opacity 220ms ease;
@@ -292,12 +268,12 @@
   @media (hover: hover) {
     .glass-lift:hover {
       transform: translateY(-2px);
-      border-color: rgba(144, 194, 231, 0.22);
+      border-color: rgb(var(--brand-sky-rgb) / 0.22);
     }
   }
 
   /*
-   * Specular sweep on entry — the `.liquid` glint generalised to a panel.
+   * Specular sweep on entry. Runs once on a panel, then the element is inert.
    * Runs once, then the element is inert.
    */
   .glass-sweep::after {
@@ -309,7 +285,7 @@
     background: linear-gradient(
       100deg,
       transparent 38%,
-      rgba(240, 237, 239, 0.10) 50%,
+      rgb(var(--brand-paper-rgb) / 0.10) 50%,
       transparent 62%
     );
     background-size: 260% 100%;

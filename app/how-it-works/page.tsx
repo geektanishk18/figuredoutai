@@ -1,15 +1,17 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/page-meta'
 import Content from '@/content/how-it-works.mdx'
 import { Faq, FaqSchema, type FaqItem } from '@/components/content/Faq'
 import { PageShell } from '@/components/content/PageShell'
+import { PhaseRoadmap } from '@/components/diagram'
+import { PHASE_COUNT } from '@/lib/content/phases'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'How It Works — Four Phases, Your Rules',
   description:
     'Lead qualification, implemented in four phases: intake audit, logic design, build and deploy, managed operation. Your rules, documented and changeable.',
-  alternates: { canonical: '/how-it-works' },
-  openGraph: { type: 'website', url: '/how-it-works' },
-}
+  path: '/how-it-works',
+})
 
 /**
  * Answers lead with the direct response in the first sentence, so they can be
@@ -58,6 +60,16 @@ export default function HowItWorksPage() {
     <PageShell
       eyebrow="How it works"
       title="Four phases. You approve each one before it is billed."
+      lede={
+        <p>
+          {`An engagement runs in ${PHASE_COUNT === 4 ? 'four' : PHASE_COUNT} phases: an intake audit that maps how enquiries reach you, a logic design phase that documents your qualification rules, a build that runs in parallel with your current process before it takes live traffic, and managed operation afterwards. You approve each phase before the next begins, and before it is invoiced.`}
+        </p>
+      }
+      /*
+        Full width: the roadmap has four columns and a horizontal spine, and
+        the prose measure crushes it into the left half of the page.
+      */
+      wide={<PhaseRoadmap />}
       ctas={[
         { label: 'Get your intake audit', href: '/contact' },
         { label: 'What we build', href: '/services' },

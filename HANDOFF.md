@@ -85,7 +85,7 @@ curl -s http://localhost:3100/ | grep -o '<h1[^>]*>.\{0,120\}'
 
 ## 1. What this is
 
-Production marketing site for **FiguredoutAI LLP** · LLPIN ACZ-0822 · Noida.
+Production marketing site for **FiguredoutAI LLP** · LLPIN ACZ-0822 · Farrukhabad, Uttar Pradesh, India.
 
 Rebuilt from a "master build prompt" that works in 8 numbered layers, each with
 a QA gate. The previous Vite + React Router site is preserved untouched in

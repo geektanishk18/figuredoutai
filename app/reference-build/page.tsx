@@ -1,17 +1,17 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/page-meta'
 import Content from '@/content/reference-build.mdx'
 import { PageShell } from '@/components/content/PageShell'
 import { ReferenceLog } from '@/components/content/ReferenceLog'
 import { ProofSchema } from '@/components/seo/JsonLd'
 import { SITE_URL } from '@/lib/constants'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'Reference Build — A Decision Layer We Own',
   description:
     'A conversational qualification system we designed and built, and whose IP we own: portal, WhatsApp qualification layer, admin panel and voice.',
-  alternates: { canonical: '/reference-build' },
-  openGraph: { type: 'website', url: '/reference-build' },
-}
+  path: '/reference-build',
+})
 
 export default function ReferenceBuildPage() {
   return (

@@ -1,17 +1,17 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/page-meta'
 import Content from '@/content/contact.mdx'
 import { LeadForm } from '@/components/contact/LeadForm'
 import { PageBackdrop } from '@/components/layout/PageBackdrop'
 import { Container, Eyebrow } from '@/components/ui'
 import { COMPANY, CONTACT } from '@/lib/constants'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'Get Your Intake Audit',
   description:
     'Request an intake audit. Three working days, no cost. We map how enquiries reach your business and where they stop. You keep the map either way.',
-  alternates: { canonical: '/contact' },
-  openGraph: { type: 'website', url: '/contact' },
-}
+  path: '/contact',
+})
 
 export default function ContactPage() {
   return (

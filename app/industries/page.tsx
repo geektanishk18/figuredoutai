@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/page-meta'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { IndustryDemo } from '@/components/demo'
@@ -7,13 +8,12 @@ import { Container, Eyebrow, Reveal, SectionHeading } from '@/components/ui'
 import { INDUSTRIES } from '@/lib/constants'
 import { INDUSTRY_PAGES } from '@/lib/industry-pages'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'Industries We Build Decision Layers For',
   description:
     'Clinics, real estate, restaurants, travel, recruitment and HVAC. Different intake paths, the same failure, different qualification criteria.',
-  alternates: { canonical: '/industries' },
-  openGraph: { type: 'website', url: '/industries' },
-}
+  path: '/industries',
+})
 
 export default function IndustriesPage() {
   return (
@@ -113,7 +113,6 @@ export default function IndustriesPage() {
           <SectionHeading
             id="industries-demo-heading"
             align="center"
-            eyebrow="See it work"
             title="Pick your industry. Put your own numbers in."
             description="The same enquiry, handled two ways — and what the gap between them costs over a year."
             className="mx-auto mb-10 text-center"

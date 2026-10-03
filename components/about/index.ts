@@ -1,5 +1,5 @@
 export { Founders } from './Founders'
 export { Beliefs } from './Beliefs'
-export { NumberedRows } from './NumberedRows'
+export { CommitmentRows } from './CommitmentRows'
 export { FounderQuoteBand } from './FounderQuoteBand'
 export { EntityBlock } from './EntityBlock'

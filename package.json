@@ -6,11 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --max-warnings 0 && npm run check:copy && npm run check:scope && npm run check:glass",
+    "lint": "eslint . --max-warnings 0 && npm run check:copy && npm run check:scope && npm run check:glass && npm run check:contrast",
     "typecheck": "tsc --noEmit",
     "check:copy": "node scripts/guards/check-copy.mjs",
     "check:scope": "node scripts/guards/check-scope.mjs",
-    "check:glass": "node scripts/guards/check-blur.mjs && node scripts/guards/check-containing-block.mjs"
+    "check:glass": "node scripts/guards/check-blur.mjs && node scripts/guards/check-containing-block.mjs",
+    "check:contrast": "node scripts/guards/check-contrast.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

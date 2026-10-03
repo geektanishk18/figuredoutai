@@ -2,6 +2,18 @@ import { Button } from '@/components/ui'
 import { nextStepBand, type NextStepSlug } from '@/lib/content/next-step-band'
 import type { IndustrySlug } from '@/lib/constants'
 
+/**
+ * Whether this vertical has its own closing band.
+ *
+ * Exported so a caller can choose a fallback *before* rendering. The component
+ * returning null is not enough on its own: the page needs to know whether to
+ * render a generic CTA instead, and it cannot find that out from a component
+ * that has already decided to render nothing.
+ */
+export function hasNextStep(slug: IndustrySlug): boolean {
+  return slug in nextStepBand
+}
+
 /** Boards 1c and 2b close on this band. */
 export function NextStepBand({ slug, headingId }: { slug: IndustrySlug; headingId: string }) {
   const band = nextStepBand[slug as NextStepSlug]

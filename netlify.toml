@@ -1,0 +1,48 @@
+# Netlify build configuration.
+#
+# WHY THIS FILE EXISTS
+#
+# Netlify has been building this repository on every push and publishing
+# nothing usable: every route on both the deploy previews and the production
+# netlify.app domain returned Netlify's own "Page not found" page. The deploy
+# logs corroborated it — 24 files uploaded for a site that exports 126, and the
+# Lighthouse plugin failing with "Status code: 404" on `/`.
+#
+# The cause is framework auto-detection. Without a config Netlify sees Next and
+# runs its Next.js runtime, which expects a server build. `next.config.mjs` sets
+# `output: 'export'`, so there is no server build to find and nothing lands in
+# the publish directory. Naming the directory explicitly is the whole fix.
+#
+# WHAT NETLIFY IS FOR HERE
+#
+# Previews only. Production is a static upload to Hostinger (Apache), as
+# `next.config.mjs` and DEPLOYMENT.md describe. Netlify exists so a change can
+# be looked at on a real URL before it is uploaded.
+#
+# `public/.htaccess` ships in the export but is Apache-only, so Netlify ignores
+# it. That costs nothing for a preview: Netlify resolves `/foo/` to
+# `/foo/index.html` natively, which is the one rule a preview actually needs.
+# The canonical-host and legacy-path redirects in that file are production
+# concerns and stay Apache's job.
+
+[build]
+  command = "npm run build"
+  publish = "out"
+
+# Every Netlify deploy of this site is noindex, without exception.
+#
+# This is the important half of the change. Fixing the build makes
+# figuredoutai.netlify.app serve a complete, working copy of the site — which
+# is a second crawlable origin publishing the same pages as figuredoutai.com,
+# competing with it for the same queries and splitting the signals the
+# canonical tags are meant to consolidate. A preview that outranks production
+# is a worse outcome than a preview that 404s.
+#
+# Netlify applies noindex to deploy previews and branch deploys on its own, but
+# not to the production context — which is the one that would do the damage.
+# Setting it here covers every context, which is correct while Hostinger is the
+# only real deploy target.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

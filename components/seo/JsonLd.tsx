@@ -247,7 +247,7 @@ export function ProofSchema({
       schema={{
         '@context': 'https://schema.org',
         '@type': schemaTypeFor(tier),
-        '@id': `${url}/#proof`,
+        '@id': new URL('#proof', url).href,
         headline,
         description,
         url,
