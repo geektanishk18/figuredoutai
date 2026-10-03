@@ -44,4 +44,12 @@ RewriteCond %{HTTP_HOST} ^www\. [NC,OR]
 RewriteCond %{ENV:FO_INSECURE} =1
 RewriteRule ^(.*)$ https://figuredoutai.com/$1 [L,R=301]
 
+# Each route's social card exports as a file named `opengraph-image` with no
+# extension, so Apache serves it with no Content-Type at all. LinkedIn and
+# Facebook can refuse a preview image that isn't declared as an image. They
+# are all 1200x630 PNGs.
+<FilesMatch "^opengraph-image$">
+  ForceType image/png
+</FilesMatch>
+
 ErrorDocument 404 /404.html
