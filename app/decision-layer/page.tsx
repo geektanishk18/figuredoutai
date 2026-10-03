@@ -1,15 +1,15 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/page-meta'
 import Content from '@/content/decision-layer.mdx'
 import { PageShell } from '@/components/content/PageShell'
 import { ComparisonMatrix } from '@/components/diagram'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: 'AI Decision Layer — Deciding, Not Answering',
   description:
     'A chatbot returns a scripted reply and leaves the decision to a human. An AI decision layer applies your rules, scores, routes and escalates with context.',
-  alternates: { canonical: '/decision-layer' },
-  openGraph: { type: 'website', url: '/decision-layer' },
-}
+  path: '/decision-layer',
+})
 
 export default function DecisionLayerPage() {
   return (

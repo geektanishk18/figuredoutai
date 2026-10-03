@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/page-meta'
+import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
 import type { ComponentType } from 'react'
 import { notFound } from 'next/navigation'
 import Clinics from '@/content/industries/clinics.mdx'
@@ -12,7 +14,7 @@ import { DecisionArchitecture } from '@/components/content/DecisionArchitecture'
 import { ConflictResolution } from '@/components/content/ConflictResolution'
 import { NextStepBand, hasNextStep } from '@/components/content/NextStepBand'
 import { Faq, FaqSchema } from '@/components/content/Faq'
-import { BreadcrumbSchema, ProofSchema, ServiceSchema } from '@/components/seo/JsonLd'
+import { ProofSchema, ServiceSchema } from '@/components/seo/JsonLd'
 import { ComparisonMatrix, IntakeFlow } from '@/components/diagram'
 import { QualifyIcon } from '@/components/icons'
 import { PageBackdrop } from '@/components/layout/PageBackdrop'
@@ -47,12 +49,7 @@ export async function generateMetadata({
   const { slug } = await params
   const page = INDUSTRY_PAGES[slug as IndustrySlug]
   if (!page) return {}
-  return {
-    title: page.title,
-    description: page.description,
-    alternates: { canonical: `/industries/${slug}` },
-    openGraph: { type: 'website', url: `/industries/${slug}` },
-  }
+  return pageMeta({ title: page.title, description: page.description, path: `/industries/${slug}` })
 }
 
 export default async function IndustryPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -79,13 +76,6 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
    */
   const schemas = (
     <>
-      <BreadcrumbSchema
-        trail={[
-          { name: 'Home', path: '/' },
-          { name: 'Industries', path: '/industries' },
-          { name: industry.label, path: `/industries/${industry.slug}` },
-        ]}
-      />
       <ServiceSchema
         name={`Conversational decision layer — ${industry.name}`}
         description={page.description}
@@ -109,6 +99,13 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
         <PageBackdrop />
 
         <Container className="pb-24 pt-16 sm:pb-32 sm:pt-20">
+          <Breadcrumbs
+            trail={[
+              { name: 'Home', path: '/' },
+              { name: 'Industries', path: '/industries' },
+              { name: industry.label, path: `/industries/${industry.slug}` },
+            ]}
+          />
           {/* ── 1. Hero ─────────────────────────────────────────── */}
           <header className="max-w-prose">
             <Eyebrow>{industry.label}</Eyebrow>

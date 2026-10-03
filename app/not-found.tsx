@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   description:
     'This page does not exist or has moved. The site covers the decision layer, how engagements run, the industries we build for, and the intake audit.',
   robots: { index: false, follow: true },
+  // Without this the 404 inherits the layout's canonical of `/`, telling a
+  // crawler that a page it must not index is a copy of the homepage.
+  alternates: { canonical: null },
 }
 
 export default function NotFound() {

@@ -31,11 +31,11 @@ export const COMPANY = {
   legalName: 'FiguredoutAI LLP',
   llpin: 'ACZ-0822',
   registeredUnder: 'Limited Liability Partnership Act, 2008',
-  city: 'Noida',
+  city: 'Farrukhabad',
   state: 'Uttar Pradesh',
   country: 'India',
   /** Canonical one-line entity string. Use verbatim wherever the entity is stated. */
-  entityString: 'FiguredoutAI LLP · LLPIN ACZ-0822 · Noida, Uttar Pradesh, India',
+  entityString: 'FiguredoutAI LLP · LLPIN ACZ-0822 · Farrukhabad, Uttar Pradesh, India',
   positioning: 'Growth infrastructure for businesses that intend to scale output, not headcount.',
   tagline: 'Scaling revenue without scaling chaos.',
 } as const
@@ -49,7 +49,7 @@ export const CONTACT = {
 
 export const CTA = {
   label: 'Get your intake audit',
-  href: '/contact',
+  href: '/contact/',
 } as const
 
 /* ------------------------------------------------------------------ *

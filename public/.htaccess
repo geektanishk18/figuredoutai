@@ -6,31 +6,42 @@
 # outside the site, so it redirects permanently rather than 404ing. This
 # replaces the `redirects()` entry in next.config.mjs, which has no effect
 # once the build is a static export — there is no Next server left to run it.
-Redirect 301 /industries/medical-clinics /industries/clinics/
+# The rule itself is the first RewriteRule below.
 
 RewriteEngine On
 
-# One origin, one canonical form. Every page declares
-# https://figuredoutai.com/... as its canonical; without these two rules the
-# www and http variants can still serve a 200, which splits the same content
-# across up to four addressable origins and leaves a crawler to guess which
-# the canonical tag meant.
+# Every redirect below goes straight to the final URL — https, no www, with the
+# trailing slash — so any variant of a page resolves in ONE 301, not a chain.
+# Before this, http://www.figuredoutai.com/about took two hops (scheme+host,
+# then Apache's own directory-slash redirect), and each extra hop is crawl
+# budget and link equity lost along the way.
 #
-# Ordered host-then-scheme, and both use R=301 with L so each redirect
-# resolves in a single hop rather than chaining www→non-www→https.
-RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-RewriteRule ^(.*)$ https://%1/$1 [L,R=301]
+# The canonical host is written out rather than taken from the request: the
+# canonical tag on every page names https://figuredoutai.com, and the redirect
+# should agree with it exactly.
 
+# Old clinics path (see above). Anchored, so /industries/medical-clinics/ with
+# a trailing slash cannot become /industries/clinics// the way the old
+# prefix-matching `Redirect` directive would have made it.
+RewriteRule ^industries/medical-clinics/?$ https://figuredoutai.com/industries/clinics/ [L,R=301]
+
+# Plain-http requests. Hostinger terminates TLS in front of Apache on some
+# plans, so both the direct flag and the forwarded header are checked.
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP:X-Forwarded-Proto} !=https
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
+RewriteRule ^ - [E=FO_INSECURE:1]
 
-# trailingSlash: true means every route builds to <route>/index.html. A
-# request for /about (no trailing slash) needs to resolve to the same file
-# without a visible redirect loop or a 404.
+# trailingSlash: true builds every route to <route>/index.html. A request for
+# /about goes straight to https://figuredoutai.com/about/ — whatever host or
+# scheme it arrived on — instead of first fixing the host and then letting
+# Apache's DirectorySlash add the slash in a second hop.
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}/index.html -f
-RewriteRule ^(.*[^/])$ /$1/ [L,R=301]
+RewriteRule ^(.*[^/])$ https://figuredoutai.com/$1/ [L,R=301]
+
+# Anything else on www or plain http: same path, canonical origin.
+RewriteCond %{HTTP_HOST} ^www\. [NC,OR]
+RewriteCond %{ENV:FO_INSECURE} =1
+RewriteRule ^(.*)$ https://figuredoutai.com/$1 [L,R=301]
 
 ErrorDocument 404 /404.html

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { pageMeta } from '@/lib/page-meta'
 import { CommitmentRows } from '@/components/about'
 import { LabelledSection } from '@/components/content/LabelledSection'
 import { PageBackdrop } from '@/components/layout/PageBackdrop'
@@ -7,15 +8,14 @@ import { ComparisonTable, GovernanceCards, VerificationGrid } from '@/components
 import { howRows } from '@/lib/content/how-rows'
 import { engagements, howLede, verifyNote, whyLede } from '@/lib/content/why-sections'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   // The brand name is appended by the layout's `%s | FiguredoutAI` template,
   // so naming it here too rendered "Why FiguredoutAI — … | FiguredoutAI".
   title: 'Why Us — AI Automation Agency in India',
   description:
     'Qualification logic decides whether a conversation is worth an owner’s time. We build it from your criteria, document it, and stay accountable for it.',
-  alternates: { canonical: '/why-us' },
-  openGraph: { type: 'website', url: '/why-us' },
-}
+  path: '/why-us',
+})
 
 const SECTION_H2 =
   'font-heading text-[clamp(1.5rem,3vw,2.375rem)] font-semibold leading-[1.16] tracking-[-0.01em] text-paper'

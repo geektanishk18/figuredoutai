@@ -98,7 +98,7 @@ export function DecisionArchitecture({ scenario, depth, headingId }: DecisionArc
         <p className="mt-3 max-w-[62ch] text-copy leading-relaxed text-body">
           The written rules — every condition, what it routes to, the
           acknowledgement window it carries and what happens when that window passes — are
-          what the Intake Audit produces for your clinic specifically. Three working days, no
+          what the Intake Audit produces for your business specifically. Three working days, no
           cost, and you keep the map whether or not we build anything.
         </p>
         <a

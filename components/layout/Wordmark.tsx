@@ -42,7 +42,9 @@ export function Wordmark({
 }: WordmarkProps) {
   return (
     <Image
-      src={surface === 'dark' ? '/brand/wordmark-light.png' : '/brand/wordmark-dark.png'}
+      // Lossless WebP of the delivered PNGs: pixel-identical, about 30% smaller.
+      // `images.unoptimized` (static export) means next/image will not convert.
+      src={surface === 'dark' ? '/brand/wordmark-light.webp' : '/brand/wordmark-dark.webp'}
       alt="FiguredoutAI"
       width={Math.round(height * ASPECT)}
       height={height}

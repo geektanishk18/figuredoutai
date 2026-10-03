@@ -171,9 +171,12 @@ const config: Config = {
         180: '180ms',
       },
       keyframes: {
+        // Rise only. It used to fade from opacity 0 as well, which hid every
+        // page's largest element for the first 180ms of every load and pushed
+        // LCP back by that much on all routes.
         'fade-rise': {
-          from: { opacity: '0', transform: 'translateY(12px)' },
-          to: { opacity: '1', transform: 'none' },
+          from: { transform: 'translateY(12px)' },
+          to: { transform: 'none' },
         },
         typing: {
           '0%, 60%, 100%': { opacity: '0.3' },

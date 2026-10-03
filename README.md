@@ -1,6 +1,6 @@
 # FiguredoutAI — figuredoutai.com
 
-Production marketing site for **FiguredoutAI LLP** · LLPIN ACZ-0822 · Noida, Uttar Pradesh, India.
+Production marketing site for **FiguredoutAI LLP** · LLPIN ACZ-0822 · Farrukhabad, Uttar Pradesh, India.
 
 ## Stack
 
