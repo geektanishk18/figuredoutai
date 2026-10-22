@@ -198,6 +198,7 @@ export const FOOTER_NAV: readonly { label: string; href: string }[] = [
   { label: 'Services', href: '/services' },
   { label: 'Why Us', href: '/why-us' },
   { label: 'Reference Build', href: '/reference-build' },
+  { label: 'Systems We’ve Built', href: '/systems' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ] as const
