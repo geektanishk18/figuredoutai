@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowRight, Check, ChevronDown, CircleHelp, Network, Search, Share2, Sparkles, Workflow } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -71,7 +71,12 @@ export function SystemsExplorer() {
   const [activeId, setActiveId] = useState<string>('system-1')
   const [showFlow, setShowFlow] = useState(false)
   const [completed, setCompleted] = useState(false)
-  const active = SYSTEMS.find((system) => system.id === activeId) ?? SYSTEMS[0]
+  const active = SYSTEMS.find((system) => system.id === activeId) ?? SYSTEMS[0]!
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1)
+    if (SYSTEMS.some((system) => system.id === hash)) setActiveId(hash)
+  }, [])
 
   function selectSystem(id: string) {
     setActiveId(id)
