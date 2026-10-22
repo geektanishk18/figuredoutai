@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { INDUSTRIES, RESERVED_ROUTES, SITE_URL } from '@/lib/constants'
 import { USE_CASE_PAGES } from '@/lib/use-case-pages'
+import { USE_CASE_PAGES } from '@/lib/use-case-pages'
 import { lastModifiedFor } from '@/lib/sitemap-lastmod'
 
 // Required for `output: 'export'` — a static export has no server to
@@ -81,6 +82,13 @@ const ROUTES: Route[] = [
     changeFrequency: 'monthly',
     sources: ['app/use-cases/page.tsx', 'lib/use-case-pages.ts'],
   },
+  ...USE_CASE_PAGES.map((page) => ({
+    path: `/use-cases/${page.slug}`,
+    priority: 0.75,
+    changeFrequency: 'monthly' as const,
+    sources: ['app/use-cases/[slug]/page.tsx', 'lib/use-case-pages.ts'],
+  })),
+  { path: '/use-cases', priority: 0.8, changeFrequency: 'monthly', sources: ['app/use-cases/page.tsx', 'lib/use-case-pages.ts'] },
   ...USE_CASE_PAGES.map((page) => ({
     path: `/use-cases/${page.slug}`,
     priority: 0.75,
