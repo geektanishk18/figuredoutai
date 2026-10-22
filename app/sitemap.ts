@@ -86,6 +86,12 @@ const ROUTES: Route[] = [
     ],
   })),
   {
+    path: '/systems',
+    priority: 0.8,
+    changeFrequency: 'monthly',
+    sources: ['app/systems/page.tsx', 'components/systems/SystemsExplorer.tsx', 'components/home/SystemsShowcase.tsx'],
+  },
+  {
     path: '/reference-build',
     priority: 0.6,
     changeFrequency: 'yearly',
