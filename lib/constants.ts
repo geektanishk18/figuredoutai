@@ -196,6 +196,7 @@ export const FOOTER_NAV: readonly { label: string; href: string }[] = [
   { label: 'Decision Layer', href: '/decision-layer' },
   { label: 'How It Works', href: '/how-it-works' },
   { label: 'Services', href: '/services' },
+  { label: 'Use Cases', href: '/use-cases' },
   { label: 'Why Us', href: '/why-us' },
   { label: 'Reference Build', href: '/reference-build' },
   { label: 'Systems We’ve Built', href: '/systems' },
