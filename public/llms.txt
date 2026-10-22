@@ -10,6 +10,8 @@
 - [Decision Layer](https://figuredoutai.com/decision-layer/): What a decision layer is and how it differs from a chatbot
 - [How It Works](https://figuredoutai.com/how-it-works/): The four-phase implementation process
 - [Services](https://figuredoutai.com/services/): Qualification logic design, the decision layer, operating visibility
+- [Use Cases](https://figuredoutai.com/use-cases/): Buyer-focused explanations of inbound lead intake, WhatsApp qualification, AI voice reception, sales workflow automation and CRM integration
+- [Systems We’ve Built](https://figuredoutai.com/systems/): Interactive workflow examples, explicitly presented as demonstrations rather than client case studies
 - [Why Us](https://figuredoutai.com/why-us/): How qualification logic is built rather than downloaded
 - [Reference Build](https://figuredoutai.com/reference-build/): A decision layer we designed, built and own
 - [About](https://figuredoutai.com/about/): Company, founders, and registered entity details
