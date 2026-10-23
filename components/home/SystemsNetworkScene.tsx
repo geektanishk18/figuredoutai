@@ -53,7 +53,7 @@ export function SystemsNetworkScene() {
         [0, -2.8, 0],
       ] as const
 
-      const nodes = nodePositions.map(([x, y, z], index) => {
+      nodePositions.forEach(([x, y, z], index) => {
         const node = new THREE.Mesh(
           new THREE.SphereGeometry(index === 4 ? 0.22 : 0.16, 16, 16),
           new THREE.MeshBasicMaterial({
@@ -62,7 +62,6 @@ export function SystemsNetworkScene() {
         )
         node.position.set(x, y, z)
         group.add(node)
-        return node
       })
 
       const points = [
