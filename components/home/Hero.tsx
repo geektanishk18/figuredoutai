@@ -1,5 +1,6 @@
 import { Button, Container, Eyebrow, GlowBackdrop, Liquid } from '@/components/ui'
 import { CTA } from '@/lib/constants'
+import { SystemsNetworkScene } from './SystemsNetworkScene'
 
 /**
  * The homepage hero, as board 1a draws it.
@@ -27,8 +28,12 @@ export function Hero() {
       */}
       <GlowBackdrop className="left-[-6%] top-[-34%] h-[760px] w-[1100px] max-w-none" />
 
+      <div className="pointer-events-none absolute right-0 top-0 h-full w-full opacity-55 sm:w-[58%]" aria-hidden="true">
+        <SystemsNetworkScene />
+      </div>
+
       <Container>
-        <div className="max-w-[820px]">
+        <div className="relative z-10 max-w-[820px]">
           <Eyebrow>
             <span aria-hidden="true" className="mr-2.5 h-[5px] w-[5px] rounded-full bg-sky" />
             Conversational qualification layer
