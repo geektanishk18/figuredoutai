@@ -1,5 +1,5 @@
 import { Button, Container, Eyebrow, GlowBackdrop, Liquid } from '@/components/ui'
-import { CTA } from '@/lib/constants'
+import { CTA } from '@/lib/constants'\nimport { SystemsNetworkScene } from './SystemsNetworkScene'
 
 /**
  * The homepage hero, as board 1a draws it.
