@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { ArrowRight, Check, ChevronDown, CircleHelp, Network, Search, Share2, Sparkles, Workflow } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { ProjectInteractiveDemo } from './ProjectInteractiveDemo'
 
 const SYSTEMS = [
   {
@@ -154,6 +155,10 @@ export function SystemsExplorer() {
           ) : null}
 
           <p className="mt-5 rounded-xl border border-line bg-ink/40 p-3 text-xs leading-relaxed text-muted">{active.disclosure}</p>
+        </div>
+
+        <div className="border-t border-line p-5 sm:p-7">
+          <ProjectInteractiveDemo systemId={active.id} />
         </div>
       </section>
     </div>
