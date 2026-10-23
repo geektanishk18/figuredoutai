@@ -5,6 +5,7 @@ import { Hero } from '@/components/home/Hero'
 import { HowItWorks } from '@/components/home/HowItWorks'
 import { IndustriesGrid } from '@/components/home/IndustriesGrid'
 import { ReferenceBuildTeaser } from '@/components/home/ReferenceBuildTeaser'
+import { SystemsShowcase } from '@/components/home/SystemsShowcase'
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
       <Comparison />
       <HowItWorks />
       <IndustriesGrid />
+      <SystemsShowcase />
       <ReferenceBuildTeaser />
       <AuditBand />
     </>

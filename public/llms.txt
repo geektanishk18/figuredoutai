@@ -15,6 +15,14 @@
 - [About](https://figuredoutai.com/about/): Company, founders, and registered entity details
 - [Contact](https://figuredoutai.com/contact/): Intake audit request
 
+## Use cases
+- [Use Cases index](https://figuredoutai.com/use-cases/): Overview of qualification and sales workflow use cases
+- [WhatsApp Lead Qualification](https://figuredoutai.com/use-cases/whatsapp-lead-qualification/): Structure WhatsApp enquiry intake, qualification and routing
+- [AI Voice Receptionist](https://figuredoutai.com/use-cases/ai-voice-receptionist/): Voice-based intake, caller qualification and human hand-off
+- [Sales Workflow Automation](https://figuredoutai.com/use-cases/sales-workflow-automation/): Connect qualification, ownership and follow-up tasks
+- [Inbound Lead Intake](https://figuredoutai.com/use-cases/inbound-lead-intake/): Capture, qualify and route enquiries from supported channels
+- [CRM and AI Integration](https://figuredoutai.com/use-cases/crm-ai-integration/): Map qualification context into authorised CRM workflows
+
 ## Industries
 - [Clinics](https://figuredoutai.com/industries/clinics/)
 - [Real Estate](https://figuredoutai.com/industries/real-estate/)

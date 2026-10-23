@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { INDUSTRIES, RESERVED_ROUTES, SITE_URL } from '@/lib/constants'
+import { USE_CASE_PAGES } from '@/lib/use-case-pages'
 import { lastModifiedFor } from '@/lib/sitemap-lastmod'
 
 // Required for `output: 'export'` — a static export has no server to
@@ -74,6 +75,18 @@ const ROUTES: Route[] = [
     changeFrequency: 'monthly',
     sources: ['app/industries/page.tsx', 'lib/industry-pages.ts'],
   },
+  {
+    path: '/use-cases',
+    priority: 0.8,
+    changeFrequency: 'monthly',
+    sources: ['app/use-cases/page.tsx', 'lib/use-case-pages.ts'],
+  },
+  ...USE_CASE_PAGES.map((page) => ({
+    path: `/use-cases/${page.slug}`,
+    priority: 0.75,
+    changeFrequency: 'monthly' as const,
+    sources: ['app/use-cases/[slug]/page.tsx', 'lib/use-case-pages.ts'],
+  })),
   ...INDUSTRIES.map((industry) => ({
     path: `/industries/${industry.slug}`,
     priority: 0.7,
@@ -85,6 +98,12 @@ const ROUTES: Route[] = [
       'lib/industry-pages.ts',
     ],
   })),
+  {
+    path: '/systems',
+    priority: 0.8,
+    changeFrequency: 'monthly',
+    sources: ['app/systems/page.tsx', 'components/systems/SystemsExplorer.tsx', 'components/home/SystemsShowcase.tsx'],
+  },
   {
     path: '/reference-build',
     priority: 0.6,
