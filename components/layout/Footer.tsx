@@ -110,7 +110,14 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div aria-hidden="true" className="pointer-events-none relative mt-16 overflow-hidden select-none">
+          <p className="whitespace-nowrap text-center font-heading text-[clamp(3.5rem,14.5vw,13rem)] font-semibold leading-[0.78] tracking-[-0.075em] text-paper/[0.045] blur-[1.5px] [text-shadow:0_0_42px_rgba(94,235,255,0.13)]">
+            FIGUREDOUTAI
+          </p>
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-panel via-panel/50 to-transparent" />
+        </div>
+
+        <div className="mt-8 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-muted">
             © {new Date().getFullYear()} {COMPANY.legalName}
           </p>
